@@ -1,10 +1,10 @@
 {
-  "name": "Frequency",
+  "name": "frequency",
   "version": "0.0.0",
   "description": "Temporal frequency library",
   "main": "index.js",
   "scripts": {
-    "test": "nodeunit"
+    "test": "grunt"
   },
   "repository": {
     "type": "git",
@@ -20,5 +20,11 @@
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/smhg/frequency/issues"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-nodeunit": "~0.2.0",
+    "grunt-contrib-jshint": "~0.6.4",
+    "grunt-contrib-watch": "~0.5.3"
   }
 }
