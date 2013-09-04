@@ -1,4 +1,4 @@
-frequencyjs
+frequency
 ===========
 
 Temporal frequency library
