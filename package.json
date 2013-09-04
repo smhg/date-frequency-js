@@ -1,0 +1,24 @@
+{
+  "name": "Frequency",
+  "version": "0.0.0",
+  "description": "Temporal frequency library",
+  "main": "index.js",
+  "scripts": {
+    "test": "nodeunit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/smhg/frequency.git"
+  },
+  "keywords": [
+    "frequency",
+    "date",
+    "time",
+    "temporal"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/smhg/frequency/issues"
+  }
+}
