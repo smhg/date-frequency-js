@@ -3,6 +3,26 @@ frequency
 
 Temporal frequency library
 
+## Usage
+```javascript
+var frequency = new Frequency();
+
+frequency.on('hour', 10)
+  .on('minute', 30)
+  .between(new Date(2013, 8, 2), new Date(2013, 8, 8, 23, 59, 00));
+
+/*
+  returns an array with these dates:
+  2013-09-02 10:30:00
+  2013-09-03 10:30:00
+  2013-09-04 10:30:00
+  2013-09-05 10:30:00
+  2013-09-06 10:30:00
+  2013-09-07 10:30:00
+  2013-09-08 10:30:00
+  */
+```
+
 ## Methods
 ### .on(unit, fix, [of])
 Add frequency rules by specifying a unit and a value to fix it to.
