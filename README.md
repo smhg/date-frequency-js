@@ -1,7 +1,7 @@
+[![Build status](https://api.travis-ci.org/smhg/frequency.png)](https://travis-ci.org/smhg/frequency)
 frequency
 ===========
-
-Temporal frequency library
+> Temporal frequency library
 
 ## Usage
 ```javascript
