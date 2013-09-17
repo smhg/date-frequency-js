@@ -25,21 +25,27 @@ module.exports = {
     var f = new Frequency(),
       tmp = f.on('hour', 10);
 
-    test.deepEqual(f, tmp, 'on should return frequency object');
-    test.equal(typeof f.rules, 'array', 'on should create rules property');
-
-    f.on('day', 6).on('hour', 10);
-
-    test.equal(f.rules.length, 2, 'rules should be chainable');
+    test.deepEqual(f, tmp, 'on should be chainable');
 
     test.done();
   },
   'next': function (test) {
-    var f = new Frequency();
+    var f = new Frequency(),
+      start = new Date(2013, 8, 2);
 
-    f.on('hour', 10);
+    test.equal(f.next(start), new Date(2013, 8, 2, 0, 0, 1), 'default frequency should be 1 second');
 
-    test.equal(f.next(new Date(2013, 8, 2)), new Date(2013, 8, 2, 10, 0, 0), 'next should return next instance');
+    f.on('hour', 10); // each day at 10:00:00
+    test.equal(f.next(start), new Date(2013, 8, 2, 10, 0, 0), 'next should return next instance of frequency');
+
+    f.on('hour', 0); // each day at 00:00:00
+    test.equal(f.next(start), start, 'next should include passed date as instance');
+
+    f.on('hour', 10, 'month'); // each 10th hour of the month
+    test.equal(f.next(start), new Date(2013, 9, 1, 10, 0, 0), 'scope change should return correct instance');
+
+    f.on('hour', 10).on('day', 2); // each Wednesday at 10:00:00
+    test.equal(f.next(start), new Date(2013, 9, 4, 10, 0, 0), 'multiple rules should return correct instance');
 
     test.done();
   },
@@ -48,7 +54,7 @@ module.exports = {
       start = new Date(2013, 8, 2),
       end = new Date(2013, 8, 9);
 
-    f.on('hour', 10);
+    f.on('hour', 10); // each day at 10:00:00
 
     test.equal(f.between(start, end).length, 7, 'between should return an array of dates');
 
