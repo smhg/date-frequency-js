@@ -21,31 +21,57 @@ var Frequency = require('../lib/frequency');
 */
 
 module.exports = {
-  'on': function (test) {
-    var f = new Frequency(),
-      tmp = f.on('hour', 10);
-
-    test.deepEqual(f, tmp, 'on should be chainable');
-
-    test.done();
-  },
   'next': function (test) {
     var f = new Frequency(),
       start = new Date(2013, 8, 2);
 
-    test.equal(f.next(start), new Date(2013, 8, 2, 0, 0, 1), 'default frequency should be 1 second');
+    test.deepEqual(f.next(start), new Date(2013, 8, 2), 'empty frequency should return same date');
 
     f.on('hour', 10); // each day at 10:00:00
-    test.equal(f.next(start), new Date(2013, 8, 2, 10, 0, 0), 'next should return next instance of frequency');
+    test.deepEqual(f.next(start), new Date(2013, 8, 2, 10, 0, 0), 'next should return next instance of frequency');
 
     f.on('hour', 0); // each day at 00:00:00
-    test.equal(f.next(start), start, 'next should include passed date as instance');
+    test.deepEqual(f.next(start), new Date(2013, 8, 2), 'next should return passed date if match');
 
-    f.on('hour', 10, 'month'); // each 10th hour of the month
-    test.equal(f.next(start), new Date(2013, 9, 1, 10, 0, 0), 'scope change should return correct instance');
+    f.on('hour', 10).on('day', 3); // each Wednesday at 10:00:00
+    test.deepEqual(f.next(start), new Date(2013, 8, 4, 10, 0, 0), 'multiple rules should return correct instance');
 
-    f.on('hour', 10).on('day', 2); // each Wednesday at 10:00:00
-    test.equal(f.next(start), new Date(2013, 9, 4, 10, 0, 0), 'multiple rules should return correct instance');
+    f = new Frequency();
+    start = new Date(2013, 8, 2, 11, 10, 20);
+
+    test.deepEqual(f.next(start), new Date(2013, 8, 2, 11, 10, 20), 'empty frequency should return same date');
+
+    f.on('hour', 10); // each day at 10:00:00
+    test.deepEqual(f.next(start), new Date(2013, 8, 3, 10, 0, 0), 'next should return next instance of frequency');
+
+    f.on('hour', 0); // each day at 00:00:00
+    test.deepEqual(f.next(start), new Date(2013, 8, 3, 0, 0, 0), 'next should return passed date if match');
+
+    f.on('hour', 10).on('day', 3); // each Wednesday at 10:00:00
+    test.deepEqual(f.next(start), new Date(2013, 8, 4, 10, 0, 0), 'multiple rules should return correct instance');
+
+    f = new Frequency();
+    start = new Date(2013, 8, 2, 9, 54, 0);
+
+    test.deepEqual(f.next(start), new Date(2013, 8, 2, 9, 54, 0), 'empty frequency should return same date');
+
+    f.on('hour', 10); // each day at 10:00:00
+    test.deepEqual(f.next(start), new Date(2013, 8, 2, 10, 0, 0), 'next should return next instance of frequency');
+
+    f.on('hour', 0); // each day at 00:00:00
+    test.deepEqual(f.next(start), new Date(2013, 8, 3, 0, 0, 0), 'next should return passed date if match');
+
+    f.on('hour', 10).on('day', 3); // each Wednesday at 10:00:00
+    test.deepEqual(f.next(start), new Date(2013, 8, 4, 10, 0, 0), 'multiple rules should return correct instance');
+
+    f = new Frequency();
+    start = new Date(2013, 8, 2);
+
+    f.on('month', 10); // each November 1st at 00:00:00
+    test.deepEqual(f.next(start), new Date(2013, 10, 1, 0, 0, 0), 'next should return next instance of frequency');
+
+    f.on('month', 10).on('minute', 30); // each Wednesday at 10:00:00
+    test.deepEqual(f.next(start), new Date(2013, 10, 1, 0, 30, 0), 'multiple rules should return correct instance');
 
     test.done();
   },
@@ -54,9 +80,12 @@ module.exports = {
       start = new Date(2013, 8, 2),
       end = new Date(2013, 8, 9);
 
-    f.on('hour', 10); // each day at 10:00:00
+    f.on('hour', 10).on('minute', 0).on('second', 0); // each day at 10:00:00
+    var arr = f.between(start, end);
 
-    test.equal(f.between(start, end).length, 7, 'between should return an array of dates');
+    test.equal(arr.length, 7, 'between should return an array of dates');
+    test.deepEqual(arr[0], new Date(2013, 8, 2, 10, 0, 0), 'first item should be first frequency match');
+    test.deepEqual(arr[6], new Date(2013, 8, 8, 10, 0, 0), 'last item should be last frequency match');
 
     test.done();
   }

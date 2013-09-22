@@ -1,6 +1,6 @@
 {
   "name": "frequency",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Temporal frequency library",
   "main": "index.js",
   "scripts": {
@@ -26,5 +26,8 @@
     "grunt-contrib-nodeunit": "~0.2.0",
     "grunt-contrib-jshint": "~0.6.4",
     "grunt-contrib-watch": "~0.5.3"
+  },
+  "dependencies": {
+    "underscore": "~1.5.2"
   }
 }
