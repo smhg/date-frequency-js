@@ -14,7 +14,8 @@
     "frequency",
     "date",
     "time",
-    "temporal"
+    "temporal",
+    "cron"
   ],
   "author": "",
   "license": "MIT",
