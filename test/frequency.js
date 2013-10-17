@@ -88,5 +88,20 @@ module.exports = {
     test.deepEqual(arr[6], new Date(2013, 8, 8, 10, 0, 0), 'last item should be last frequency match');
 
     test.done();
+  },
+  'moment': function (test) {
+    var moment = require('moment'),
+      f = new Frequency(),
+      start = moment(new Date(2013, 8, 2)),
+      end = moment(new Date(2013, 8, 9));
+
+    f.on('hour', 10).on('minute', 0).on('second', 0); // each day at 10:00:00
+    var arr = f.between(start, end);
+
+    test.equal(arr.length, 7, 'between should return an array of dates');
+    test.deepEqual(arr[0], new Date(2013, 8, 2, 10, 0, 0), 'first item should be first frequency match');
+    test.deepEqual(arr[6], new Date(2013, 8, 8, 10, 0, 0), 'last item should be last frequency match');
+
+    test.done();
   }
 };
