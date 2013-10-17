@@ -21,6 +21,14 @@ var Frequency = require('../lib/frequency');
 */
 
 module.exports = {
+  'constructor': function (test) {
+    var f = new Frequency({ D: { fix: 3, scope: 'W' }, h: { fix: 9, scope: 'D' } }),
+      start = new Date(2013, 9, 14);
+
+    test.deepEqual(f.next(start), new Date(2013, 9, 16, 9, 0, 0), 'constructor should take set of rules');
+
+    test.done();
+  },
   'next': function (test) {
     var f = new Frequency(),
       start = new Date(2013, 8, 2);
