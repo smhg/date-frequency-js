@@ -9,7 +9,7 @@ var frequency = new Frequency();
 
 frequency.on('hour', 10)
   .on('minute', 30)
-  .between(new Date(2013, 8, 2), new Date(2013, 8, 8, 23, 59, 00));
+  .between(new Date(2013, 8, 2), new Date(2013, 8, 8, 23, 59, 0));
 
 /*
   returns an array with these dates:
