@@ -21,7 +21,7 @@ var Frequency = require('../lib/frequency');
 */
 
 module.exports = {
-  'constructor': function (test) {
+  constructor: function (test) {
     var f = new Frequency({ D: { fix: 3, scope: 'W' }, h: { fix: 9, scope: 'D' } }),
       start = new Date(2013, 9, 14);
 
@@ -29,7 +29,17 @@ module.exports = {
 
     test.done();
   },
-  'next': function (test) {
+  getValue: function (test) {
+    var f = new Frequency();
+
+    f.on('hour', 10).on('minute', 0);
+
+    test.equal(f.getValue('hour'), 10, 'getValue should return value set with on');
+    test.equal(f.getValue('m', 'h'), 0, 'getValue with scope should return value set with on');
+
+    test.done();
+  },
+  next: function (test) {
     var f = new Frequency(),
       start = new Date(2013, 8, 2);
 
@@ -83,7 +93,7 @@ module.exports = {
 
     test.done();
   },
-  'between': function (test) {
+  between: function (test) {
     var f = new Frequency(),
       start = new Date(2013, 8, 2),
       end = new Date(2013, 8, 9);
@@ -97,7 +107,7 @@ module.exports = {
 
     test.done();
   },
-  'moment': function (test) {
+  moment: function (test) {
     var moment = require('moment'),
       f = new Frequency(),
       start = moment(new Date(2013, 8, 2)),
