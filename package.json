@@ -1,6 +1,6 @@
 {
   "name": "frequency",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Temporal frequency library",
   "main": "index.js",
   "scripts": {
@@ -23,13 +23,13 @@
     "url": "https://github.com/smhg/frequency/issues"
   },
   "devDependencies": {
-    "grunt": "~0.4.1",
-    "grunt-contrib-nodeunit": "~0.2.0",
-    "grunt-contrib-jshint": "~0.6.4",
-    "grunt-contrib-watch": "~0.5.3",
-    "moment": "~2.3.1"
+    "grunt": "0.4.*",
+    "grunt-contrib-nodeunit": "*",
+    "grunt-contrib-jshint": "*",
+    "grunt-contrib-watch": "*",
+    "moment": "2.*"
   },
   "dependencies": {
-    "underscore": "~1.5.2"
+    "underscore": "1.5.*"
   }
 }
