@@ -27,7 +27,14 @@
     "moment": "2.*"
   },
   "dependencies": {
-    "underscore": "1.5.*"
+    "lodash.foreach": "*",
+    "lodash.keys": "*",
+    "lodash.indexof": "*",
+    "lodash.first": "*",
+    "lodash.last": "*",
+    "lodash.rest": "*",
+    "lodash.difference": "*",
+    "lodash.union": "*"
   },
   "testling": {
     "harness" : "mocha",
