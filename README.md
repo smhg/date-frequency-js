@@ -1,4 +1,5 @@
-[![Build status](https://api.travis-ci.org/smhg/frequency.png)](https://travis-ci.org/smhg/frequency)
+[![browser support](https://ci.testling.com/smhg/frequency.png)](http://ci.testling.com/smhg/frequency) [![Build status](https://api.travis-ci.org/smhg/frequency.png)](https://travis-ci.org/smhg/frequency)
+
 frequency
 ===========
 > Temporal frequency library

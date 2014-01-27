@@ -28,5 +28,15 @@
   },
   "dependencies": {
     "underscore": "1.5.*"
+  },
+  "testling": {
+    "harness" : "mocha",
+    "files": "test/*.js",
+    "browsers": [
+      "iexplore/6.0..latest",
+      "firefox/latest",
+      "chrome/latest",
+      "safari/latest"
+    ]
   }
 }
