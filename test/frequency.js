@@ -1,80 +1,91 @@
-var Frequency = require('../lib/frequency'),
+var assert = require('assert'),
+  Frequency = require('../lib/frequency'),
   moment = require('moment');
 
-module.exports = {
-  constructor: function (test) {
-    var f = new Frequency({ D: { fix: 3, scope: 'W' }, h: { fix: 9, scope: 'D' } }),
-      start = new Date(2013, 9, 14);
+describe('Frequency', function () {
+  describe('#()', function () {
+    it('should take set of rules', function () {
+      var f = new Frequency({ D: { fix: 3, scope: 'W' }, h: { fix: 9, scope: 'D' } }),
+        start = new Date(2013, 9, 14);
 
-    test.deepEqual(f.next(start), new Date(2013, 9, 16, 9, 0, 0), 'constructor should take set of rules');
+      assert.deepEqual(f.next(start), new Date(2013, 9, 16, 9, 0, 0));
+    });
+  });
 
-    test.done();
-  },
-  getValue: function (test) {
-    var f = new Frequency();
+  describe('#getValue()', function () {
+    it('should return values set with on', function () {
+      var f = new Frequency();
 
-    f.on('hour', 10).on('minute', 0);
+      f.on('hour', 10).on('minute', 0);
 
-    test.equal(f.getValue('hour'), 10, 'getValue should return value set with on');
-    test.equal(f.getValue('m', 'h'), 0, 'getValue with scope should return value set with on');
+      assert.equal(f.getValue('hour'), 10);
+      assert.equal(f.getValue('m', 'h'), 0);
+    });
+  });
 
-    test.done();
-  },
-  next: function (test) {
-    var f = new Frequency(),
-      start = new Date(2013, 8, 2);
+  describe('#next()', function () {
+    it('should handle date', function () {
+      var f = new Frequency(),
+        start = new Date(2013, 8, 2);
 
-    test.deepEqual(f.next(start), new Date(2013, 8, 2), 'empty frequency should return same date');
+      assert.deepEqual(f.next(start), new Date(2013, 8, 2));
 
-    f.on('hour', 10); // each day at 10:00:00
-    test.deepEqual(f.next(start), new Date(2013, 8, 2, 10, 0, 0), 'next should return next instance of frequency');
+      f.on('hour', 10); // each day at 10:00:00
+      assert.deepEqual(f.next(start), new Date(2013, 8, 2, 10, 0, 0));
 
-    f.on('hour', 0); // each day at 00:00:00
-    test.deepEqual(f.next(start), new Date(2013, 8, 2), 'next should return passed date if match');
+      f.on('hour', 0); // each day at 00:00:00
+      assert.deepEqual(f.next(start), new Date(2013, 8, 2));
 
-    f.on('hour', 10).on('day', 3); // each Wednesday at 10:00:00
-    test.deepEqual(f.next(start), new Date(2013, 8, 4, 10, 0, 0), 'multiple rules should return correct instance');
+      f.on('hour', 10).on('day', 3); // each Wednesday at 10:00:00
+      assert.deepEqual(f.next(start), new Date(2013, 8, 4, 10, 0, 0));
+    });
 
-    f = new Frequency();
-    start = new Date(2013, 8, 2, 11, 10, 20);
+    it('should handle date and time', function () {
+      var f = new Frequency(),
+        start = new Date(2013, 8, 2, 11, 10, 20);
 
-    test.deepEqual(f.next(start), new Date(2013, 8, 2, 11, 10, 20), 'empty frequency should return same date');
+      assert.deepEqual(f.next(start), new Date(2013, 8, 2, 11, 10, 20));
 
-    f.on('hour', 10); // each day at 10:00:00
-    test.deepEqual(f.next(start), new Date(2013, 8, 3, 10, 0, 0), 'next should return next instance of frequency');
+      f.on('hour', 10); // each day at 10:00:00
+      assert.deepEqual(f.next(start), new Date(2013, 8, 3, 10, 0, 0));
 
-    f.on('hour', 0); // each day at 00:00:00
-    test.deepEqual(f.next(start), new Date(2013, 8, 3, 0, 0, 0), 'next should return passed date if match');
+      f.on('hour', 0); // each day at 00:00:00
+      assert.deepEqual(f.next(start), new Date(2013, 8, 3, 0, 0, 0));
 
-    f.on('hour', 10).on('day', 3); // each Wednesday at 10:00:00
-    test.deepEqual(f.next(start), new Date(2013, 8, 4, 10, 0, 0), 'multiple rules should return correct instance');
+      f.on('hour', 10).on('day', 3); // each Wednesday at 10:00:00
+      assert.deepEqual(f.next(start), new Date(2013, 8, 4, 10, 0, 0));
+    });
 
-    f = new Frequency();
-    start = new Date(2013, 8, 2, 9, 54, 0);
+    it('should handle date with parts set to zero', function () {
+      var f = new Frequency(),
+        start = new Date(2013, 8, 2, 9, 54, 0);
 
-    test.deepEqual(f.next(start), new Date(2013, 8, 2, 9, 54, 0), 'empty frequency should return same date');
+      assert.deepEqual(f.next(start), new Date(2013, 8, 2, 9, 54, 0));
 
-    f.on('hour', 10); // each day at 10:00:00
-    test.deepEqual(f.next(start), new Date(2013, 8, 2, 10, 0, 0), 'next should return next instance of frequency');
+      f.on('hour', 10); // each day at 10:00:00
+      assert.deepEqual(f.next(start), new Date(2013, 8, 2, 10, 0, 0));
 
-    f.on('hour', 0); // each day at 00:00:00
-    test.deepEqual(f.next(start), new Date(2013, 8, 3, 0, 0, 0), 'next should return passed date if match');
+      f.on('hour', 0); // each day at 00:00:00
+      assert.deepEqual(f.next(start), new Date(2013, 8, 3, 0, 0, 0));
 
-    f.on('hour', 10).on('day', 3); // each Wednesday at 10:00:00
-    test.deepEqual(f.next(start), new Date(2013, 8, 4, 10, 0, 0), 'multiple rules should return correct instance');
+      f.on('hour', 10).on('day', 3); // each Wednesday at 10:00:00
+      assert.deepEqual(f.next(start), new Date(2013, 8, 4, 10, 0, 0));
+    });
 
-    f = new Frequency();
-    start = new Date(2013, 8, 2);
+    it('should handle different frequency parameters', function () {
+      var f = new Frequency(),
+        start = new Date(2013, 8, 2);
 
-    f.on('month', 10); // each November 1st at 00:00:00
-    test.deepEqual(f.next(start), new Date(2013, 10, 1, 0, 0, 0), 'next should return next instance of frequency');
+      f.on('month', 10); // each November 1st at 00:00:00
+      assert.deepEqual(f.next(start), new Date(2013, 10, 1, 0, 0, 0));
 
-    f.on('month', 10).on('minute', 30); // each Wednesday at 10:00:00
-    test.deepEqual(f.next(start), new Date(2013, 10, 1, 0, 30, 0), 'multiple rules should return correct instance');
+      f.on('month', 10).on('minute', 30); // each Wednesday at 10:00:00
+      assert.deepEqual(f.next(start), new Date(2013, 10, 1, 0, 30, 0));
+    });
+  });
 
-    test.done();
-  },
-  between: function (test) {
+  describe('#between()', function () {
+    // plain javascript
     var f = new Frequency(),
       start = new Date(2013, 8, 2),
       end = new Date(2013, 8, 9);
@@ -82,24 +93,27 @@ module.exports = {
     f.on('hour', 10).on('minute', 0).on('second', 0); // each day at 10:00:00
     var arr = f.between(start, end);
 
-    test.equal(arr.length, 7, 'between should return an array of dates');
-    test.deepEqual(arr[0], new Date(2013, 8, 2, 10, 0, 0), 'first item should be first frequency match');
-    test.deepEqual(arr[6], new Date(2013, 8, 8, 10, 0, 0), 'last item should be last frequency match');
+    // with moment
+    var fm = new Frequency(),
+      startm = moment(new Date(2013, 8, 2)),
+      endm = moment(new Date(2013, 8, 9));
 
-    test.done();
-  },
-  moment: function (test) {
-    var f = new Frequency(),
-      start = moment(new Date(2013, 8, 2)),
-      end = moment(new Date(2013, 8, 9));
+    fm.on('hour', 10).on('minute', 0).on('second', 0); // each day at 10:00:00
+    var arrm = fm.between(startm, endm);
 
-    f.on('hour', 10).on('minute', 0).on('second', 0); // each day at 10:00:00
-    var arr = f.between(start, end);
+    it('should return an array of dates', function () {
+      assert.equal(arr.length, 7);
+      assert.equal(arrm.length, 7);
+    });
 
-    test.equal(arr.length, 7, 'between should return an array of dates');
-    test.deepEqual(arr[0], new Date(2013, 8, 2, 10, 0, 0), 'first item should be first frequency match');
-    test.deepEqual(arr[6], new Date(2013, 8, 8, 10, 0, 0), 'last item should be last frequency match');
+    it('should have the first item match the frequency', function () {
+      assert.deepEqual(arr[0], new Date(2013, 8, 2, 10, 0, 0));
+      assert.deepEqual(arrm[0], new Date(2013, 8, 2, 10, 0, 0));
+    });
 
-    test.done();
-  }
-};
+    it('should have the last item match the frequency', function () {
+      assert.deepEqual(arr[6], new Date(2013, 8, 8, 10, 0, 0));
+      assert.deepEqual(arrm[6], new Date(2013, 8, 8, 10, 0, 0));
+    });
+  });
+});
