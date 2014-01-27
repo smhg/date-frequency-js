@@ -1,21 +1,8 @@
-/*global module:false*/
-module.exports = function(grunt) {
+module.exports = function (grunt) {
   grunt.initConfig({
     jshint: {
       options: {
-        curly: true,
-        node: true,
-        eqeqeq: true,
-        immed: true,
-        latedef: true,
-        newcap: true,
-        noarg: true,
-        sub: true,
-        undef: true,
-        unused: true,
-        boss: true,
-        eqnull: true,
-        globals: {}
+        jshintrc: true
       },
       gruntfile: {
         src: 'Gruntfile.js'
