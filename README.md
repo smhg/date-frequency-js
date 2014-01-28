@@ -1,4 +1,4 @@
-[![browser support](https://ci.testling.com/smhg/frequency.png)](http://ci.testling.com/smhg/frequency) [![Build status](https://api.travis-ci.org/smhg/frequency.png)](https://travis-ci.org/smhg/frequency)
+[![browser support](https://ci.testling.com/smhg/date-frequency.png)](http://ci.testling.com/smhg/date-frequency) [![Build status](https://api.travis-ci.org/smhg/date-frequency.png)](https://travis-ci.org/smhg/date-frequency)
 
 frequency
 ===========
@@ -43,7 +43,7 @@ Returns all occurences of the frequency between (and including) the specified st
 
 ## Development
 * Install latest [node.js](http://nodejs.org/) version.
-* `git clone https://github.com/smhg/frequency.git` to fetch source.
+* `git clone https://github.com/smhg/date-frequency.git` to fetch source.
 * `npm install` to install dependencies.
 * `npm test` to run tests.
 
