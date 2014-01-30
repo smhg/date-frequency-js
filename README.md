@@ -41,6 +41,9 @@ Returns the next occurence of the frequency after the specified date.
 ### .between(start, end)
 Returns all occurences of the frequency between (and including) the specified start and end date.
 
+## Todo
+* Enable frequencies like "every other week" and more specific.
+
 ## Development
 * Install latest [node.js](http://nodejs.org/) version.
 * `git clone https://github.com/smhg/date-frequency.git` to fetch source.
