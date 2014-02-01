@@ -42,7 +42,10 @@ Returns the next occurence of the frequency after the specified date.
 Returns all occurences of the frequency between (and including) the specified start and end date.
 
 ## Todo
-* Enable frequencies like "every other week" and more specific.
+* Add filters
+  * odd/even (compared to reference date, e.g. Unix epoch)
+  * *n*th ocurrence within scope (e.g. 2nd Thursday of the month)
+* Remove dependencies
 
 ## Development
 * Install latest [node.js](http://nodejs.org/) version.
