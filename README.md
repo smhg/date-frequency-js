@@ -1,4 +1,4 @@
-[![browser support](https://ci.testling.com/smhg/date-frequency.png)](http://ci.testling.com/smhg/date-frequency) [![Build status](https://api.travis-ci.org/smhg/date-frequency.png)](https://travis-ci.org/smhg/date-frequency)
+[![browser support](https://ci.testling.com/smhg/date-frequency.png)](https://ci.testling.com/smhg/date-frequency) [![Build status](https://api.travis-ci.org/smhg/date-frequency.png)](https://travis-ci.org/smhg/date-frequency)
 
 frequency
 ===========
