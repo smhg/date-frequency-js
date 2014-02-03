@@ -1,4 +1,4 @@
-[![browser support](https://ci.testling.com/smhg/date-frequency.png)](http://ci.testling.com/smhg/date-frequency) [![Build status](https://api.travis-ci.org/smhg/date-frequency.png)](https://travis-ci.org/smhg/date-frequency)
+[![browser support](https://ci.testling.com/smhg/date-frequency.png)](https://ci.testling.com/smhg/date-frequency) [![Build status](https://api.travis-ci.org/smhg/date-frequency.png)](https://travis-ci.org/smhg/date-frequency)
 
 frequency
 ===========
@@ -42,6 +42,7 @@ Returns the next occurence of the frequency after the specified date.
 Returns all occurences of the frequency between (and including) the specified start and end date.
 
 ## Todo
+* `toString()` and constructor string argument (useful for storage)
 * Add filters
   * odd/even (compared to reference date, e.g. Unix epoch)
   * *n*th ocurrence within scope (e.g. 2nd Thursday of the month)
