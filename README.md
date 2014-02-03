@@ -41,8 +41,11 @@ Returns the next occurence of the frequency after the specified date.
 ### .between(start, end)
 Returns all occurences of the frequency between (and including) the specified start and end date.
 
+### .toString()
+Returns a string notation of the frequency (useful for storage).
+
 ## Todo
-* `toString()` and constructor string argument (useful for storage)
+* Constructor string argument (format returned by toString)
 * Add filters
   * odd/even (compared to reference date, e.g. Unix epoch)
   * *n*th ocurrence within scope (e.g. 2nd Thursday of the month)

@@ -126,4 +126,20 @@ describe('Frequency', function () {
       assert.deepEqual(arrm[6], new Date(2013, 8, 8, 10));
     });
   });
+
+  describe('#toString()', function () {
+    it('should return frequency string notation', function () {
+      var f = new Frequency();
+
+      f.on('month', 2).on('hour', 10);
+      assert.equal(f.toString(), 'F2MT10H');
+    });
+
+    it('should include scope in notation', function () {
+      var f = new Frequency();
+
+      f.on('day', 2, 'week').on('hour', 10);
+      assert.equal(f.toString(), 'F2D/WT10H');
+    });
+  });
 });
