@@ -28,12 +28,12 @@ frequency.on('hour', 10)
 ### .on(unit, fix, [of])
 Add frequency rules by specifying a unit and a value to fix it to.
 All units below the specified unit get fixed to the default (their value at the Unix epoch, 1970-01-01 00:00:00).
-The optional `of` parameter allows you to change the scope of the unit. By default each unit's scope is the unit above it.
+The optional `of` parameter allows you to change the scope of the unit. By default each unit's scope is the unit above it in a regular date.
 
 **Examples**
 * `frequency.on('hour', 10);` sets the frequency to each day at 10:00:00.
-* `frequency.on('day', 6).on('hour', 10).on('minute', 30);` sets the frequency to Saturdays at 12:30:00.
-* `frequency.on('day', 10, 'month');` sets the frequency to the 10th day of the month at 00:00:00.
+* `frequency.on('day', 6).on('hour', 10).on('minute', 30);` sets the frequency to the 6th day of each month at 12:30:00.
+* `frequency.on('day', 7, 'week');` sets the frequency to Sundays at 00:00:00.
 
 ### .next(date)
 Returns the next occurence of the frequency after the specified date.
