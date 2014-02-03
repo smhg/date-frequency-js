@@ -4,11 +4,20 @@ var assert = require('assert'),
 
 describe('Frequency', function () {
   describe('#()', function () {
-    it('should take set of rules', function () {
-      var f = new Frequency({ D: { fix: 3, scope: 'W' }, h: { fix: 9, scope: 'D' } }),
-        start = new Date(2013, 9, 14);
+    it('should take string notation', function () {
+      var f = new Frequency('FT9H');
 
-      assert.deepEqual(f.next(start).toString(), new Date(2013, 9, 16, 9).toString());
+      assert.equal(f.getValue('h'), 9);
+
+      f = new Frequency('F6D/W');
+
+      assert.equal(f.getValue('D', 'W'), 6);
+    });
+
+    it('should take set of rules', function () {
+      var f = new Frequency({h: {fix: 9}});
+
+      assert.equal(f.getValue('h'), 9);
     });
   });
 
