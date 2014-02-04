@@ -4,19 +4,25 @@ var assert = require('assert'),
 
 describe('Frequency', function () {
   describe('#()', function () {
-    it('should take string notation', function () {
-      var f = new Frequency('FT9H');
-
+    var f;
+    it('should take date string notation', function () {
+      f = new Frequency('FT9H');
       assert.equal(f.getValue('h'), 9);
 
       f = new Frequency('F6D/W');
-
       assert.equal(f.getValue('D', 'W'), 6);
     });
 
-    it('should take set of rules', function () {
-      var f = new Frequency({h: {fix: 9}});
+    it('should take date and time string notation', function () {
+      f = new Frequency('F3D/WT10H0M0S');
+      assert.equal(f.getValue('D', 'W'), 3);
+      assert.equal(f.getValue('h'), 10);
+      assert.equal(f.getValue('m'), 0);
+      assert.equal(f.getValue('s'), 0);
+    });
 
+    it('should take set of rules', function () {
+      f = new Frequency({h: {fix: 9}});
       assert.equal(f.getValue('h'), 9);
     });
   });
