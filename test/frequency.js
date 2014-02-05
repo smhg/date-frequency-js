@@ -32,9 +32,11 @@ describe('Frequency', function () {
       var f = new Frequency();
 
       f.on('hour', 10).on('minute', 30);
-
       assert.equal(f.getValue('hour'), 10);
       assert.equal(f.getValue('m', 'h'), 30);
+
+      f.on('day', 3, 'week');
+      assert.equal(f.getValue('day', 'week'), 3);
     });
   });
 
