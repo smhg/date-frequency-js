@@ -21,6 +21,16 @@ describe('Frequency', function () {
       assert.equal(f.getValue('s'), 0);
     });
 
+    it('should detect invalid string notation', function () {
+      assert.throws(function () {
+        new Frequency('F9H');
+      });
+
+      assert.throws(function () {
+        new Frequency('FT6D');
+      });
+    });
+
     it('should take set of rules', function () {
       f = new Frequency({h: {fix: 9}});
       assert.equal(f.getValue('h'), 9);
