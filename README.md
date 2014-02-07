@@ -1,4 +1,4 @@
-[![browser support](https://ci.testling.com/smhg/date-frequency.png)](https://ci.testling.com/smhg/date-frequency) [![Build status](https://api.travis-ci.org/smhg/date-frequency.png)](https://travis-ci.org/smhg/date-frequency)
+[![browser support](https://ci.testling.com/smhg/date-frequency-js.png)](https://ci.testling.com/smhg/date-frequency) [![Build status](https://api.travis-ci.org/smhg/date-frequency-js.png)](https://travis-ci.org/smhg/date-frequency-js)
 
 frequency
 ===========
@@ -58,7 +58,7 @@ Returns a string notation of the frequency (useful for storage).
 
 ## Development
 * Install latest [node.js](http://nodejs.org/) version.
-* `git clone https://github.com/smhg/date-frequency.git` to fetch source.
+* `git clone https://github.com/smhg/date-frequency-js.git` to fetch source.
 * `npm install` to install dependencies.
 * `npm test` to run tests.
 
