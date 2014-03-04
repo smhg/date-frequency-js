@@ -152,17 +152,40 @@ describe('Frequency', function () {
       assert.deepEqual(arr[6], new Date(2013, 8, 8, 10));
       assert.deepEqual(arrm[6], new Date(2013, 8, 8, 10));
     });
+
+    it('should return using string notation', function () {
+      var f = new Frequency('F1D/WT15H45M0S');
+      var dates = f.between(new Date(2014, 2, 10), new Date(2014, 02, 17));
+      assert.equal(dates.length, 1);
+    });
+
+    it('should return nothing using string notation', function () {
+      var f = new Frequency('F1D/WT15H45M0S');
+      var dates = f.between(new Date(2014, 2, 4), new Date(2014, 2, 10));
+      assert.equal(dates.length, 0);
+    });
   });
 
   describe('#toString()', function () {
-    it('should return frequency string notation', function () {
+    it('should output the same string passed to the constructor', function () {
+      var f = new Frequency('FT15H45M');
+      assert.equal(f.toString(), 'FT15H45M');
+
+      f = new Frequency('F1D/WT15H45M');
+      assert.equal(f.toString(), 'F1D/WT15H45M');
+
+      f = new Frequency('F1D/WT15H45M0S');
+      assert.equal(f.toString(), 'F1D/WT15H45M0S');
+    });
+
+    it('should output rules set with on() to string notation', function () {
       var f = new Frequency();
 
       f.on('month', 2).on('hour', 10);
       assert.equal(f.toString(), 'F2MT10H');
     });
 
-    it('should include scope in notation', function () {
+    it('should output scope set with on() to string notation', function () {
       var f = new Frequency();
 
       f.on('day', 2, 'week').on('hour', 10);
