@@ -15,9 +15,9 @@ describe('Frequency', function () {
 
     it('should take date and time string notation', function () {
       f = new Frequency('F3D/WT10H0M0S');
-      assert.equal(f.getValue('D', 'W'), 3);
+      assert.equal(f.getValue('D', 'week'), 3);
       assert.equal(f.getValue('h'), 10);
-      assert.equal(f.getValue('m'), 0);
+      assert.equal(f.getValue('minute'), 0);
       assert.equal(f.getValue('s'), 0);
     });
 
@@ -114,6 +114,20 @@ describe('Frequency', function () {
 
       f.on('hour', 10).on('day', 3, 'week'); // each Wednesday at 10:00:00
       assert.deepEqual(f.next(start).toString(), new Date(2013, 8, 4, 10).toString());
+    });
+
+    it('should work with string notation', function () {
+      var f = new Frequency('F1D/WT15H45M');
+      assert.deepEqual(f.next(new Date(2014, 2, 10)), new Date(2014, 2, 10, 15, 45));
+
+      assert.deepEqual(f.next(new Date(2014, 2, 10, 15, 45, 1)), new Date(2014, 2, 10, 15, 45, 1));
+
+      assert.deepEqual(f.next(new Date(2014, 2, 10, 15, 46)), new Date(2014, 2, 17, 15, 45));
+    });
+
+    it('should work with string notation containing defaults', function () {
+      var f = new Frequency('F1D/WT15H45M0S');
+      assert.deepEqual(f.next(new Date(2014, 2, 4)), new Date(2014, 2, 10, 15, 45));
     });
   });
 

@@ -35,10 +35,13 @@
     "lodash.last": "*",
     "lodash.rest": "*",
     "lodash.difference": "*",
-    "lodash.union": "*"
+    "lodash.union": "*",
+    "lodash.reduce": "*",
+    "lodash.pick": "*",
+    "lodash.values": "*"
   },
   "testling": {
-    "harness" : "mocha",
+    "harness": "mocha",
     "files": "test/*.js",
     "browsers": [
       "iexplore/8.0..latest",
