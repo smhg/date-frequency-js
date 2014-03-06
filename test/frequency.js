@@ -180,6 +180,23 @@ describe('Frequency', function () {
     });
   });
 
+  describe('#compare()', function () {
+    it('should detect before', function () {
+      var f = new Frequency('F1D/W');
+      assert.ok(f.compare(new Frequency('F2D/W')) === -1);
+    });
+
+    it('should detect after', function () {
+      var f = new Frequency('F2D/W');
+      assert.ok(f.compare(new Frequency('F1D/W')) === 1);
+    });
+
+    it('should detect equal', function () {
+      var f = new Frequency('F1D/W');
+      assert.ok(f.compare(new Frequency('F1D/W')) === 0);
+    });
+  });
+
   describe('#toString()', function () {
     it('should output the same string passed to the constructor', function () {
       var f = new Frequency('FT15H45M');
