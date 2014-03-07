@@ -222,5 +222,12 @@ describe('Frequency', function () {
       f.on('day', 2, 'week').on('hour', 10);
       assert.equal(f.toString(), 'F2D/WT10H');
     });
+
+    it('should respect default unit order', function () {
+      var f = new Frequency({second: {fix: 0}});
+
+      f.on('minute', 0).on('hour', 10);
+      assert.equal(f.toString(), 'FT10H0M0S');
+    });
   });
 });
