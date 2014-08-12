@@ -24,21 +24,21 @@
   },
   "homepage": "https://github.com/smhg/date-frequency-js",
   "devDependencies": {
-    "mocha": "*",
-    "moment": "2.*"
+    "mocha": "x",
+    "moment": "2.x"
   },
   "dependencies": {
-    "lodash.foreach": "*",
-    "lodash.keys": "*",
-    "lodash.indexof": "*",
-    "lodash.first": "*",
-    "lodash.last": "*",
-    "lodash.rest": "*",
-    "lodash.difference": "*",
-    "lodash.union": "*",
-    "lodash.reduce": "*",
-    "lodash.pick": "*",
-    "lodash.values": "*"
+    "lodash.foreach": "x",
+    "lodash.keys": "x",
+    "lodash.indexof": "x",
+    "lodash.first": "x",
+    "lodash.last": "x",
+    "lodash.rest": "x",
+    "lodash.difference": "x",
+    "lodash.union": "x",
+    "lodash.reduce": "x",
+    "lodash.pick": "x",
+    "lodash.values": "x"
   },
   "testling": {
     "harness": "mocha",
