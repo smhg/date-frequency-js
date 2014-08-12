@@ -129,6 +129,13 @@ describe('Frequency', function () {
       var f = new Frequency('F1D/WT15H45M0S');
       assert.deepEqual(f.next(new Date(2014, 2, 4)), new Date(2014, 2, 10, 15, 45));
     });
+
+    it('should apply functions to units', function () {
+      Frequency.fn.odd = require('number-kind').odd;
+
+      var f = new Frequency('F(odd)W/E1D/WT15H45M0S');
+      assert.deepEqual(f.next(new Date(2014, 2, 4)), new Date(2014, 2, 10, 15, 45));
+    });
   });
 
   describe('#between()', function () {
@@ -203,10 +210,8 @@ describe('Frequency', function () {
       assert.equal((new Frequency('F1D/WT15H45M')).toString(), 'F1D/WT15H45M');
       assert.equal((new Frequency('F1D/WT15H45M0S')).toString(), 'F1D/WT15H45M0S');
 
-      // should be enabled like: Frequency.fn.odd = require('number-kind').odd;
+      assert.equal((new Frequency('F(leap)Y1D/WT15H45M0S')).toString(), 'F(leap)Y1D/WT15H45M0S');
       assert.equal((new Frequency('F(odd)W/E1D/WT15H45M0S')).toString(), 'F(odd)W/E1D/WT15H45M0S');
-      // or Frequency.leap = require('leap-year')
-      assert.equal((new Frequency('F(leap)W/E1D/WT15H45M0S')).toString(), 'F(leap)W/E1D/WT15H45M0S');
     });
 
     it('should output rules set with on() to string notation', function () {

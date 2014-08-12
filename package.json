@@ -25,7 +25,8 @@
   "homepage": "https://github.com/smhg/date-frequency-js",
   "devDependencies": {
     "mocha": "x",
-    "moment": "2.x"
+    "moment": "2.x",
+    "number-kind": "^0.1.0"
   },
   "dependencies": {
     "lodash.foreach": "x",
