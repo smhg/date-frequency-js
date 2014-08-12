@@ -199,14 +199,14 @@ describe('Frequency', function () {
 
   describe('#toString()', function () {
     it('should output the same string passed to the constructor', function () {
-      var f = new Frequency('FT15H45M');
-      assert.equal(f.toString(), 'FT15H45M');
+      assert.equal((new Frequency('FT15H45M')).toString(), 'FT15H45M');
+      assert.equal((new Frequency('F1D/WT15H45M')).toString(), 'F1D/WT15H45M');
+      assert.equal((new Frequency('F1D/WT15H45M0S')).toString(), 'F1D/WT15H45M0S');
 
-      f = new Frequency('F1D/WT15H45M');
-      assert.equal(f.toString(), 'F1D/WT15H45M');
-
-      f = new Frequency('F1D/WT15H45M0S');
-      assert.equal(f.toString(), 'F1D/WT15H45M0S');
+      // should be enabled like: Frequency.fn.odd = require('number-kind').odd;
+      assert.equal((new Frequency('F(odd)W/E1D/WT15H45M0S')).toString(), 'F(odd)W/E1D/WT15H45M0S');
+      // or Frequency.leap = require('leap-year')
+      assert.equal((new Frequency('F(leap)W/E1D/WT15H45M0S')).toString(), 'F(leap)W/E1D/WT15H45M0S');
     });
 
     it('should output rules set with on() to string notation', function () {
