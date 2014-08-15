@@ -2,6 +2,9 @@ var assert = require('assert'),
   Frequency = require('../lib/frequency'),
   moment = require('moment');
 
+Frequency.fn.odd = require('number-kind').odd;
+Frequency.fn.leap = require('leap-year');
+
 describe('Frequency', function () {
   describe('#()', function () {
     var f;
@@ -138,8 +141,6 @@ describe('Frequency', function () {
     });
 
     it('should apply functions to units', function () {
-      Frequency.fn.odd = require('number-kind').odd;
-
       var f = new Frequency('F(odd)W/E1D/WT15H45M0S'); // Mondays of odd weeks at 15:45:00
       assert.deepEqual(f.next(new Date(2014, 7, 6)), new Date(2014, 7, 11, 15, 45));
       assert.deepEqual(f.next(new Date(2014, 7, 11)), new Date(2014, 7, 11, 15, 45));
@@ -159,6 +160,8 @@ describe('Frequency', function () {
       assert.deepEqual(date, new Date(2014, 6, 1, 0, 0, 0));
       date = f.next(date.setDate(2));
       assert.deepEqual(date, new Date(2014, 7, 1, 0, 0, 0));
+      date = f.next(date.setDate(2));
+      assert.deepEqual(date, new Date(2015, 6, 1, 0, 0, 0));
     });
   });
 
