@@ -10,6 +10,7 @@ var frequency = new Frequency();
 
 frequency.on('hour', 10)
   .on('minute', 30)
+  .on('second', 0)
   .between(new Date(2013, 8, 2), new Date(2013, 8, 8, 23, 59));
 
 /*
@@ -28,17 +29,23 @@ frequency.on('hour', 10)
 ### Frequency()
 Constructor takes a string notation (also see `toString()`).
 ```javascript
-var frequency = Frequency('F3D/WT10H30M'); // every 3rd day of the week (Wednesday) at 10:30:00
+var frequency = Frequency('F3D/WT10H30M0S');
+// every Wednesday at 10:30:00
 ```
 
 ### .on(unit, fix, [of])
 Add frequency rules by specifying a unit and a value to fix it to.
-All units below the specified unit get fixed to the default (their value at the Unix epoch, 1970-01-01 00:00:00).
+All units below the specified unit get fixed to the default (their value at midnight, January 1st, 0).
 The optional `of` parameter allows you to change the scope of the unit. By default each unit's scope is the unit above it in a regular date.
 ```javascript
-frequency.on('hour', 10); // sets the frequency to each day at 10:00:00
-frequency.on('day', 6).on('hour', 10).on('minute', 30); // sets the frequency to the 6th day of each month at 12:30:00
-frequency.on('day', 7, 'week'); // sets the frequency to Sundays at 00:00:00
+frequency.on('hour', 10).on('minute', 0).on('second', 0);
+// each day at 10:00:00
+
+frequency.on('day', 6).on('h', 10).on('m', 30).on('s', 0);
+// 6th day of each month at 12:30:00
+
+frequency.on('d', 7, 'week').on('h', 0).on('m', 0).on('s', 0);
+// Sundays at 0:00:00
 ```
 
 ### .next(date)
@@ -51,10 +58,9 @@ Returns all occurences of the frequency between (and including) the specified st
 Returns a string notation of the frequency (useful for storage).
 
 ## Todo
-* Add filters
-  * odd/even (compared to reference date, e.g. Unix epoch)
-  * *n*th ocurrence within scope (e.g. 2nd Thursday of the month)
-* Remove dependencies
+* Enable filters (?) like *n* th ocurrence within scope (e.g. 2nd Thursday of month).
+* Remove dependencies.
+* Spend less time in loops.
 
 ## Development
 * Install latest [node.js](http://nodejs.org/) version.
