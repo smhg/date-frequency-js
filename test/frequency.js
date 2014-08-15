@@ -149,6 +149,16 @@ describe('Frequency', function () {
         };
       var f = new Frequency('F(weekend)D/WT12H0M0S'); // Weekends at 12:00:00
       assert.deepEqual(f.next(new Date(2014, 7, 20)), new Date(2014, 7, 23, 12));
+
+      Frequency.fn.inSummer = function (month) {
+          return month === 7 || month === 8;
+        };
+      var f = new Frequency('F(inSummer)M1DT0H0M0S'); // First day of "summer" months at midnight
+      var date = new Date(2014, 0, 15);
+      date = f.next(date);
+      assert.deepEqual(date, new Date(2014, 6, 1, 0, 0, 0));
+      date = f.next(date.setDate(2));
+      assert.deepEqual(date, new Date(2014, 7, 1, 0, 0, 0));
     });
   });
 
