@@ -143,6 +143,12 @@ describe('Frequency', function () {
       var f = new Frequency('F(odd)W/E1D/WT15H45M0S'); // Mondays of odd weeks at 15:45:00
       assert.deepEqual(f.next(new Date(2014, 7, 6)), new Date(2014, 7, 11, 15, 45));
       assert.deepEqual(f.next(new Date(2014, 7, 11)), new Date(2014, 7, 11, 15, 45));
+
+      Frequency.fn.weekend = function (weekday) {
+          return weekday === 6 || weekday === 7;
+        };
+      var f = new Frequency('F(weekend)D/WT12H0M0S'); // Weekends at 12:00:00
+      assert.deepEqual(f.next(new Date(2014, 7, 20)), new Date(2014, 7, 23, 12));
     });
   });
 
