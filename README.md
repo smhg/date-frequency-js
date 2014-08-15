@@ -33,9 +33,9 @@ var frequency = Frequency('F3D/WT10H30M0S');
 // every Wednesday at 10:30:00
 ```
 
-### .on(unit, fix|options)
-Add frequency rules by specifying a unit and a value to fix it to or an options object.
-The options object can contain 3 properties: `fix`, `scope` and `fn`.
+### .on(unit, fix, scope)
+Add frequency rules by specifying a unit and a value to fix it to and an optional scope.
+The `fix` parameter can also be an object containing 3 properties: `fix`, `scope` and `fn`.
 ```javascript
 frequency.on('hour', 10).on('minute', 0).on('second', 0);
 // each day at 10:00:00
@@ -43,7 +43,7 @@ frequency.on('hour', 10).on('minute', 0).on('second', 0);
 frequency.on('day', 6).on('m', 30).on('s', 0);
 // each 30 minutes after the hour of the 6th day of each month
 
-frequency.on('d', {fix: 7, scope: 'week'}).on('h', 0).on('m', 0).on('s', 0);
+frequency.on('d', 7, 'week').on('h', 0).on('m', 0).on('s', 0);
 // Sundays at midnight
 
 Frequency.fn.even = require('number-kind').even;
