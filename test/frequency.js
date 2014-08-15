@@ -72,13 +72,20 @@ describe('Frequency', function () {
       var f = new Frequency(),
         start = new Date(2013, 8, 2, 11, 10, 20);
 
-      assert.deepEqual(f.next(start).toString(), new Date(2013, 8, 2, 11, 10, 20).toString());
+      assert.equal(f.next(start).toString(), new Date(2013, 8, 2, 11, 10, 20).toString());
 
       f.on('hour', 10); // each day at 10:00:00
-      assert.deepEqual(f.next(start).toString(), new Date(2013, 8, 3, 10).toString());
+      assert.equal(f.next(start).toString(), new Date(2013, 8, 3, 10).toString());
 
       f.on('hour', 0); // each day at 00:00:00
-      assert.deepEqual(f.next(start).toString(), new Date(2013, 8, 3).toString());
+      assert.equal(f.next(start).toString(), new Date(2013, 8, 3).toString());
+    });
+
+    it('should return date if it matches', function () {
+      var f = new Frequency();
+
+      f.on('hour', 10).on('minute', 0).on('second', 0); // each day at 10:00:00
+      assert.equal(f.next(new Date(2013, 8, 2, 10)).toString(), (new Date(2013, 8, 2, 10)).toString());
     });
 
     it('should handle different rules', function () {
@@ -134,7 +141,8 @@ describe('Frequency', function () {
       Frequency.fn.odd = require('number-kind').odd;
 
       var f = new Frequency('F(odd)W/E1D/WT15H45M0S'); // Mondays of odd weeks at 15:45:00
-      assert.deepEqual(f.next(new Date(2014, 7, 6)), new Date(2014, 7, 18, 15, 45));
+      assert.deepEqual(f.next(new Date(2014, 7, 6)), new Date(2014, 7, 11, 15, 45));
+      assert.deepEqual(f.next(new Date(2014, 7, 11)), new Date(2014, 7, 11, 15, 45));
     });
   });
 
