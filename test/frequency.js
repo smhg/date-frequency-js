@@ -133,8 +133,8 @@ describe('Frequency', function () {
     it('should apply functions to units', function () {
       Frequency.fn.odd = require('number-kind').odd;
 
-      var f = new Frequency('F(odd)W/E1D/WT15H45M0S');
-      assert.deepEqual(f.next(new Date(2014, 2, 4)), new Date(2014, 2, 10, 15, 45));
+      var f = new Frequency('F(odd)W/E1D/WT15H45M0S'); // Mondays of odd weeks at 15:45:00
+      assert.deepEqual(f.next(new Date(2014, 7, 6)), new Date(2014, 7, 18, 15, 45));
     });
   });
 
