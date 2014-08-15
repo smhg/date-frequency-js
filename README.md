@@ -33,19 +33,22 @@ var frequency = Frequency('F3D/WT10H30M0S');
 // every Wednesday at 10:30:00
 ```
 
-### .on(unit, fix, [of])
-Add frequency rules by specifying a unit and a value to fix it to.
-All units below the specified unit get fixed to the default (their value at midnight, January 1st, 0).
-The optional `of` parameter allows you to change the scope of the unit. By default each unit's scope is the unit above it in a regular date.
+### .on(unit, fix|options)
+Add frequency rules by specifying a unit and a value to fix it to or an options object.
+The options object can contain 3 properties: `fix`, `scope` and `fn`.
 ```javascript
 frequency.on('hour', 10).on('minute', 0).on('second', 0);
 // each day at 10:00:00
 
-frequency.on('day', 6).on('h', 10).on('m', 30).on('s', 0);
-// 6th day of each month at 12:30:00
+frequency.on('day', 6).on('m', 30).on('s', 0);
+// each 30 minutes after the hour of the 6th day of each month
 
-frequency.on('d', 7, 'week').on('h', 0).on('m', 0).on('s', 0);
-// Sundays at 0:00:00
+frequency.on('d', {fix: 7, scope: 'week'}).on('h', 0).on('m', 0).on('s', 0);
+// Sundays at midnight
+
+Frequency.fn.even = require('number-kind').even;
+frequency.on('week', {fn: 'even', scope: 'epoch'}).on('h', 0).on('m', 0).on('s', 0);
+// days of even weeks at midnight
 ```
 
 ### .next(date)
