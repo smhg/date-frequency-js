@@ -50,6 +50,9 @@ describe('Frequency', function () {
 
       f.on('day', 3, 'week');
       assert.equal(f.getValue('day', 'week'), 3);
+
+      f.on('week', {fn: 'odd', scope: 'E'});
+      assert.equal(f.getValue('week', 'epoch'), 'odd');
     });
   });
 
