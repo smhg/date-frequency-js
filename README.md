@@ -61,7 +61,6 @@ Returns all occurences of the frequency between (and including) the specified st
 Returns a string notation of the frequency (useful for storage).
 
 ## Todo
-* Enable filters (?) like *n* th ocurrence within scope (e.g. 2nd Thursday of month).
 * Remove dependencies.
 * Spend less time in loops.
 
