@@ -60,12 +60,6 @@ Returns all occurences of the frequency between (and including) the specified st
 ### .toString()
 Returns a string notation of the frequency (useful for storage).
 
-## Todo
-* Remove dependencies.
-* Spend less time in loops.
-
 ## Development
-* Install latest [node.js](http://nodejs.org/) version.
-* `git clone https://github.com/smhg/date-frequency-js.git` to fetch source.
-* `npm install` to install dependencies.
-* `npm test` to run tests.
+* Clone repo & `npm install`.
+* Lint & test: `npm test`.
