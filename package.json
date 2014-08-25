@@ -4,7 +4,7 @@
   "description": "Temporal frequency library",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "jshint index.js lib test && mocha"
   },
   "repository": {
     "type": "git",
@@ -24,22 +24,23 @@
   },
   "homepage": "https://github.com/smhg/date-frequency-js",
   "devDependencies": {
-    "leap-year": "^1.0.0",
-    "mocha": "x",
-    "moment": "^2.0.0",
-    "number-kind": "^0.1.0"
+    "jshint": "~2.5.5",
+    "leap-year": "~1.0.0",
+    "mocha": "~1.21.4",
+    "moment": "~2.8.2",
+    "number-kind": "~0.1.0"
   },
   "dependencies": {
-    "lodash.foreach": "x",
-    "lodash.keys": "x",
-    "lodash.indexof": "x",
-    "lodash.first": "x",
-    "lodash.last": "x",
-    "lodash.rest": "x",
     "lodash.difference": "x",
-    "lodash.union": "x",
-    "lodash.reduce": "x",
+    "lodash.first": "x",
+    "lodash.foreach": "x",
+    "lodash.indexof": "x",
+    "lodash.keys": "x",
+    "lodash.last": "x",
     "lodash.pick": "x",
+    "lodash.reduce": "x",
+    "lodash.rest": "x",
+    "lodash.union": "x",
     "lodash.values": "x"
   },
   "testling": {
