@@ -1,6 +1,6 @@
 {
   "name": "date-frequency",
-  "version": "0.4.4",
+  "version": "0.4.5",
   "description": "Temporal frequency library",
   "main": "index.js",
   "scripts": {
@@ -24,24 +24,25 @@
   },
   "homepage": "https://github.com/smhg/date-frequency-js",
   "devDependencies": {
-    "jshint": "~2.5.5",
-    "leap-year": "~1.0.0",
-    "mocha": "~1.21.4",
-    "moment": "~2.8.2",
-    "number-kind": "~0.1.0"
+    "jshint": "2.6.0",
+    "leap-year": "1.0.0",
+    "mocha": "2.1.0",
+    "moment": "2.9.0",
+    "number-kind": "0.1.0"
   },
   "dependencies": {
-    "lodash.difference": "x",
-    "lodash.first": "x",
-    "lodash.foreach": "x",
-    "lodash.indexof": "x",
-    "lodash.keys": "x",
-    "lodash.last": "x",
-    "lodash.pick": "x",
-    "lodash.reduce": "x",
-    "lodash.rest": "x",
-    "lodash.union": "x",
-    "lodash.values": "x"
+    "debug": "2.1.1",
+    "lodash.difference": "2.x",
+    "lodash.first": "2.x",
+    "lodash.foreach": "2.x",
+    "lodash.indexof": "2.x",
+    "lodash.keys": "2.x",
+    "lodash.last": "2.x",
+    "lodash.pick": "2.x",
+    "lodash.reduce": "2.x",
+    "lodash.rest": "2.x",
+    "lodash.union": "2.x",
+    "lodash.values": "2.x"
   },
   "testling": {
     "harness": "mocha",
