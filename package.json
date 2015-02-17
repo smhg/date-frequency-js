@@ -31,9 +31,7 @@
     "number-kind": "0.1.0"
   },
   "dependencies": {
-    "debug": "2.1.1",
     "lodash.difference": "2.x",
-    "lodash.first": "2.x",
     "lodash.foreach": "2.x",
     "lodash.indexof": "2.x",
     "lodash.keys": "2.x",

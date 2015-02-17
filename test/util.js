@@ -2,6 +2,33 @@ var assert = require('assert'),
   util  = require('../lib/util');
 
 describe('util', function () {
+  describe('unit', function () {
+    describe('lower', function () {
+      it('should return lower date parts', function () {
+        assert.deepEqual(util.unit.lower('D'), ['h', 'm', 's']);
+      });
+      it('should return empty array if lowest date part', function () {
+        assert.deepEqual(util.unit.lower('s'), []);
+      });
+    });
+    describe('higher', function () {
+      it('should return higher date parts', function () {
+        assert.deepEqual(util.unit.higher('D'), ['Y', 'M', 'W']);
+      });
+      it('should return empty array if highest date part', function () {
+        assert.deepEqual(util.unit.higher('Y'), []);
+      });
+    });
+    describe('between', function () {
+      it('should return in-between date parts', function () {
+        assert.deepEqual(util.unit.between('D', 's'), ['h', 'm']);
+      });
+      it('should return empty array if inputs are equal', function () {
+        assert.deepEqual(util.unit.between('D', 'D'), []);
+      });
+    });
+  });
+
   describe('date', function () {
     describe('get', function () {
       it('should return date parts', function () {
