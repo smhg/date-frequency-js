@@ -38,7 +38,6 @@
     "lodash.last": "2.x",
     "lodash.pick": "2.x",
     "lodash.reduce": "2.x",
-    "lodash.rest": "2.x",
     "lodash.union": "2.x",
     "lodash.values": "2.x"
   },
