@@ -3,6 +3,7 @@ var assert = require('assert'),
   moment = require('moment');
 
 Frequency.fn.odd = require('number-kind').odd;
+Frequency.fn.even = require('number-kind').even;
 Frequency.fn.leap = require('leap-year');
 
 describe('Frequency', function () {
@@ -132,10 +133,11 @@ describe('Frequency', function () {
     it('should work with string notation', function () {
       var f = new Frequency('F1D/WT15H45M');
       assert.deepEqual(f.next(new Date(2014, 2, 10)), new Date(2014, 2, 10, 15, 45));
-
       assert.deepEqual(f.next(new Date(2014, 2, 10, 15, 45, 1)), new Date(2014, 2, 10, 15, 45, 1));
-
       assert.deepEqual(f.next(new Date(2014, 2, 10, 15, 46)), new Date(2014, 2, 17, 15, 45));
+
+      f = new Frequency('FT15H45M');
+      assert.deepEqual(f.next(new Date(2014, 2, 10)), new Date(2014, 2, 10, 15, 45));
     });
 
     it('should work with string notation containing defaults', function () {
@@ -147,6 +149,9 @@ describe('Frequency', function () {
       var f = new Frequency('F(odd)W/E1D/WT15H45M0S'); // Mondays of odd weeks at 15:45:00
       assert.deepEqual(f.next(new Date(2014, 7, 6)), new Date(2014, 7, 11, 15, 45));
       assert.deepEqual(f.next(new Date(2014, 7, 11)), new Date(2014, 7, 11, 15, 45));
+
+      f = new Frequency('F(even)W/ET9H30M0S'); // Every day of even weeks at 9:30:00
+      assert.deepEqual(f.next(new Date(2015, 4, 4)), new Date(2015, 4, 11, 9, 30));
 
       Frequency.fn.weekend = function (weekday) {
           return weekday === 6 || weekday === 7;
