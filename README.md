@@ -1,5 +1,3 @@
-[![browser support](https://ci.testling.com/smhg/date-frequency-js.png)](https://ci.testling.com/smhg/date-frequency)
-
 frequency [![Build status](https://api.travis-ci.org/smhg/date-frequency-js.png)](https://travis-ci.org/smhg/date-frequency-js)
 =========
 > Temporal frequency library

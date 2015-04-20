@@ -40,14 +40,5 @@
     "lodash.reduce": "2.x",
     "lodash.union": "2.x",
     "lodash.values": "2.x"
-  },
-  "testling": {
-    "harness": "mocha",
-    "files": "test/*.js",
-    "browsers": [
-      "ie/8..latest",
-      "chrome/latest",
-      "firefox/latest"
-    ]
   }
 }
