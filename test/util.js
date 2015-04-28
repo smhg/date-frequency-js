@@ -3,6 +3,17 @@ var assert = require('assert'),
 
 describe('util', function () {
   describe('unit', function () {
+    describe('compare', function () {
+      it('should identify a lower value', function () {
+        assert.equal(util.unit.compare('D', 'M'), 1);
+      });
+      it('should identify equal values', function () {
+        assert.equal(util.unit.compare('D', 'D'), 0);
+      });
+      it('should identify a higher value', function () {
+        assert.equal(util.unit.compare('W', 'D'), -1);
+      });
+    });
     describe('lower', function () {
       it('should return lower date parts', function () {
         assert.deepEqual(util.unit.lower('D'), ['h', 'm', 's']);
