@@ -1,6 +1,6 @@
 {
   "name": "date-frequency",
-  "version": "0.4.7",
+  "version": "0.5.0",
   "description": "Temporal frequency library",
   "main": "index.js",
   "scripts": {
