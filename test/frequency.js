@@ -1,3 +1,5 @@
+'use strict';
+
 var assert = require('assert'),
   Frequency = require('../lib/frequency'),
   moment = require('moment');
@@ -211,7 +213,7 @@ describe('Frequency', function () {
 
     it('should return using string notation', function () {
       var f = new Frequency('F1D/WT15H45M0S');
-      var dates = f.between(new Date(2014, 2, 10), new Date(2014, 02, 17));
+      var dates = f.between(new Date(2014, 2, 10), new Date(2014, 2, 17));
       assert.equal(dates.length, 1);
     });
 

@@ -4,7 +4,7 @@
   "description": "Temporal frequency library",
   "main": "index.js",
   "scripts": {
-    "test": "jshint index.js lib test && mocha"
+    "test": "eslint index.js lib test && mocha"
   },
   "repository": {
     "type": "git",
@@ -24,7 +24,7 @@
   },
   "homepage": "https://github.com/smhg/date-frequency-js",
   "devDependencies": {
-    "jshint": "2.7.0",
+    "eslint": "0.24.1",
     "leap-year": "1.0.0",
     "mocha": "2.2.5",
     "moment": "2.10.6",
