@@ -2,5 +2,6 @@
 /test
 /.travis.yml
 /.gitignore
-/.jshintrc
+/.eslintrc
 /npm-debug.log
+*.sublime-*
