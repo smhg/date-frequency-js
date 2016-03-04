@@ -27,10 +27,10 @@
   },
   "homepage": "https://github.com/smhg/date-frequency-js",
   "devDependencies": {
-    "eslint": "0.24.1",
+    "eslint": "2.2.0",
     "leap-year": "1.0.0",
-    "mocha": "2.2.5",
-    "moment": "2.10.6",
+    "mocha": "2.4.5",
+    "moment": "2.11.2",
     "number-kind": "0.1.0"
   },
   "dependencies": {
