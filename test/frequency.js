@@ -149,11 +149,37 @@ describe('Frequency', function () {
 
     it('should apply functions to units', function () {
       var f = new Frequency('F(odd)W/E1D/WT15H45M0S'); // Mondays of odd weeks at 15:45:00
-      assert.deepEqual(f.next(new Date(2015, 3, 29)), new Date(2015, 4, 4, 15, 45));
-      assert.deepEqual(f.next(new Date(2014, 7, 11)), new Date(2014, 7, 11, 15, 45));
+      assert.deepEqual(
+        f.next(new Date(2015, 3, 29)),
+        new Date(2015, 4, 4, 15, 45)
+      );
+      assert.deepEqual(
+        f.next(new Date(2014, 7, 11)),
+        new Date(2014, 7, 11, 15, 45)
+      );
 
-      f = new Frequency('F(even)W/ET9H30M0S'); // Every day of even weeks at 9:30:00
-      assert.deepEqual(f.next(new Date(2015, 4, 4)), new Date(2015, 4, 11, 9, 30));
+      assert.deepEqual(
+        (new Frequency('F(even)W/ET9H30M0S')) // Every day of even weeks at 9:30:00
+          .next(new Date(2015, 4, 4)),
+        new Date(2015, 4, 11, 9, 30)
+      );
+
+      f = new Frequency('F(odd)W/E5D/WT13H0M0S'); // Fridays of odd weeks at 13:00:00
+      assert.deepEqual(
+        f.next(new Date(2016, 1, 26, 13, 30, 0)),
+        new Date(2016, 2, 11, 13, 0, 0)
+      );
+
+      assert.deepEqual(
+        f.next(new Date(2016, 1, 26, 14, 30, 0)),
+        new Date(2016, 2, 11, 13, 0, 0)
+      );
+
+      assert.deepEqual(
+        (new Frequency('F(even)W/E5D/WT13H0M0S')) // Fridays of even weeks at 13:00:00
+          .next(new Date(2016, 2, 4, 13, 30, 0)),
+        new Date(2016, 2, 18, 13, 0, 0)
+      );
 
       Frequency.fn.weekend = function (weekday) {
           return weekday === 6 || weekday === 7;
