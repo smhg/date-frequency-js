@@ -2,9 +2,15 @@ frequency [![Build status](https://api.travis-ci.org/smhg/date-frequency-js.png)
 =========
 > Temporal frequency library
 
-## Example
+## Installation
+```sh
+npm install --save date-frequency
+```
+If ES3 support is necessary, also install `babel-polyfill`.
+
+## Usage
 ```javascript
-var frequency = new Frequency();
+let frequency = createFrequency();
 
 frequency.on('hour', 10)
   .on('minute', 30)
@@ -24,10 +30,10 @@ frequency.on('hour', 10)
 ```
 
 ## Methods
-### Frequency()
+### createFrequency()
 Constructor takes a string notation (also see `toString()`).
 ```javascript
-var frequency = Frequency('F3D/WT10H30M0S');
+let frequency = createFrequency('F3D/WT10H30M0S');
 // every Wednesday at 10:30:00
 ```
 

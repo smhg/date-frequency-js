@@ -1,14 +1,11 @@
 'use strict';
 
 import util from './util';
-import foreach from 'lodash.foreach';
-import last from 'lodash.last';
-import reduce from 'lodash.reduce';
-import pick from 'lodash.pick';
-import difference from 'lodash.difference';
-import union from 'lodash.union';
 import values from 'lodash.values';
-import indexof from 'lodash.indexof';
+import last from 'lodash.last';
+import difference from 'lodash.difference';
+import pick from 'lodash.pick';
+import union from 'lodash.union';
 import createDebug from 'debug';
 
 const debug = createDebug('date-frequency');
@@ -27,6 +24,11 @@ const stringPattern = new RegExp([
 ].join(''));
 
 const Frequency = function (rules) {
+  // make new optional
+  if (!(this instanceof Frequency)) {
+    return new Frequency(rules);
+  }
+
   rules = rules || {};
   this.rules = {};
   debug('constructor', rules);
@@ -41,9 +43,9 @@ const Frequency = function (rules) {
 
     rules = {};
 
-    for (var i = 0; i < matches.length; i += 2) {
+    for (let i = 0; i < matches.length; i += 2) {
       if (matches[i]) {
-        var u = units[i / 2];
+        let u = units[i / 2];
 
         rules[u] = {};
 
@@ -60,7 +62,7 @@ const Frequency = function (rules) {
     }
   }
 
-  for (var unit in rules) {
+  for (let unit in rules) {
     if (rules.hasOwnProperty(unit)) {
       this.on(unit, rules[unit]);
     }
@@ -130,10 +132,11 @@ Frequency.prototype.next = function (date) {
   debug('next', date);
 
   let rules = this.rules;
-  let scopes = reduce(util.unit.defaults, function (result, def, u) {
-    result[u] = rules[u] && rules[u].scope ? rules[u].scope : util.scope.getDefault(u);
-    return result;
-  }, {});
+  let scopes = Object.keys(util.unit.defaults)
+    .reduce((result, u) => {
+      result[u] = rules[u] && rules[u].scope ? rules[u].scope : util.scope.getDefault(u);
+      return result;
+    }, {});
   let resetUnit = function (parent) {
     // parent = optional parent unit below which we are doing the reset
     return function (u) {
@@ -148,15 +151,16 @@ Frequency.prototype.next = function (date) {
       }
     };
   };
-  let fixedUnits = reduce(rules, function (result, rule, unit) {
-    if ('fix' in rule) {
-      result.push(unit);
-    }
-    return result;
-  }, []);
-  let getIdx = function (idx) {
-    return function (result, s, i) {
-      if (s === idx) {
+  let fixedUnits = Object.keys(rules)
+    .reduce((result, unit) => {
+      if ('fix' in rules[unit]) {
+        result.push(unit);
+      }
+      return result;
+    }, []);
+  let getIdx = function (scopes, idx) {
+    return function (result, i) {
+      if (scopes[i] === idx) {
         result = i;
       }
       return result;
@@ -164,9 +168,9 @@ Frequency.prototype.next = function (date) {
   };
   let filter = function (d, unit, rule) {
     if (rule) {
-      var fn = Frequency.fn[rule.fn];
+      let fn = Frequency.fn[rule.fn];
 
-      var success = fn(util.date.getValue(unit, rule.scope, d), d);
+      let success = fn(util.date.getValue(unit, rule.scope, d), d);
 
       if (!success) {
         do {
@@ -183,7 +187,7 @@ Frequency.prototype.next = function (date) {
 
   let defaults = util.unit.defaults;
 
-  for (var i = 0; i < util.unit.order.length; i++) {
+  for (let i = 0; i < util.unit.order.length; i++) {
     let unit = util.unit.order[i];
     let rule = rules[unit];
 
@@ -196,11 +200,11 @@ Frequency.prototype.next = function (date) {
           util.date.add(date, unit, rule.fix - datePart);
 
           // reset everything below current unit
-          foreach(util.unit.lower(unit), resetUnit(unit));
+          util.unit.lower(unit).forEach(resetUnit(unit));
         } else if (datePart > rule.fix) {
           // find closest non fixed parent
           let parent = last(difference(values(pick(scopes, union(util.unit.higher(unit), [unit]))), fixedUnits));
-          let parentUnit = reduce(scopes, getIdx(parent));
+          let parentUnit = Object.keys(scopes).reduce(getIdx(scopes, parent));
           let reset;
 
           // raise that parent
@@ -211,7 +215,7 @@ Frequency.prototype.next = function (date) {
 
           // reset everything below that parent (except for fixed values above the current unit)
           reset = union(difference(util.unit.between(parentUnit, unit), fixedUnits), [unit], util.unit.lower(unit));
-          foreach(reset, resetUnit());
+          reset.forEach(resetUnit());
 
           // set unit to fix value
           util.date.add(date, unit, rule.fix - defaults[unit]);
@@ -221,7 +225,7 @@ Frequency.prototype.next = function (date) {
         let filterChangedSomething = filter(date, unit, rule);
 
         if (filterChangedSomething) {
-          foreach(util.unit.lower(unit), resetUnit(unit));
+          util.unit.lower(unit).forEach(resetUnit(unit));
         }
       }
       debug('next', date);
@@ -248,7 +252,7 @@ Frequency.prototype.between = function (start, end) {
 };
 
 Frequency.prototype.compare = function (frequency) {
-  for (var i = 0; i < util.unit.order.length; i++) {
+  for (let i = 0; i < util.unit.order.length; i++) {
     let unit = util.unit.order[i];
     let rule1 = this.rules[unit];
     let rule2 = frequency.rules[unit];
@@ -258,7 +262,7 @@ Frequency.prototype.compare = function (frequency) {
     } else if (rule1 && !rule2) {
       return 1;
     } else if (rule1 && rule2) {
-      var scope = rule1.scope;
+      let scope = rule1.scope;
 
       if (scope === rule2.scope) {
         let value1 = this.getValue(unit, scope);
@@ -281,13 +285,13 @@ Frequency.prototype.toString = function () {
   let hasTime = false;
   let order = util.unit.order;
 
-  for (var i = 0; i < order.length; i++) {
+  for (let i = 0; i < order.length; i++) {
     let unit = order[i];
 
     if (unit in this.rules) {
       let rule = this.rules[unit];
 
-      if (!hasTime && indexof(['h', 'm', 's'], unit) >= 0) {
+      if (!hasTime && ['h', 'm', 's'].indexOf(unit) >= 0) {
         str += 'T';
         hasTime = true;
       }
@@ -311,4 +315,4 @@ Frequency.prototype.toString = function () {
 
 Frequency.fn = {};
 
-module.exports = Frequency;
+export default Frequency;

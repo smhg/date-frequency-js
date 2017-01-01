@@ -116,4 +116,4 @@ const util = {
   }
 };
 
-module.exports = util;
+export default util;

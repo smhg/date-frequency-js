@@ -1,7 +1,5 @@
 'use strict';
 
-import indexof from 'lodash.indexof';
-
 const first = function (arr, idx) {
   return arr.slice(0, idx);
 };
@@ -43,7 +41,7 @@ const util = {
 
     unit = names[unit] || unit;
 
-    if (indexof(util.order.concat(['E']), unit) < 0) {
+    if (util.order.concat(['E']).indexOf(unit) === -1) {
       return undefined;
     }
 
@@ -56,8 +54,8 @@ const util = {
    * @return Number Compare result
    */
   compare: function (left, right) {
-    let leftIdx = indexof(util.order, left);
-    let rightIdx = indexof(util.order, right);
+    let leftIdx = util.order.indexOf(left);
+    let rightIdx = util.order.indexOf(right);
 
     if (leftIdx < rightIdx) {
       return -1;
@@ -73,7 +71,7 @@ const util = {
    * @return Array The units lower than the upper limit
    */
   lower: function (unit) {
-    return rest(util.order, indexof(util.order, unit) + 1);
+    return rest(util.order, util.order.indexOf(unit) + 1);
   },
   /**
    * Get higher units
@@ -81,7 +79,7 @@ const util = {
    * @return Array The units higher than the lower limit
    */
   higher: function (unit) {
-    return first(util.order, indexof(util.order, unit));
+    return first(util.order, util.order.indexOf(unit));
   },
   /**
    * Get units between upper and lower limit
@@ -95,11 +93,11 @@ const util = {
     if (left !== right) {
       let lower = util.lower(left);
 
-      result = first(lower, indexof(lower, right));
+      result = first(lower, lower.indexOf(right));
     }
 
     return result;
   }
 };
 
-module.exports = util;
+export default util;

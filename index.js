@@ -1,3 +1,5 @@
 'use strict';
 
-module.exports = require('./src/frequency');
+import createFrequency from './lib/frequency';
+
+export default createFrequency;

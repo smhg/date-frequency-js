@@ -1,7 +1,5 @@
 'use strict';
 
-import indexof from 'lodash.indexof';
-
 const scopes = {
   'Y': ['E'],
   'M': ['Y', 'E'],
@@ -20,13 +18,13 @@ const getDefault = function (unit) {
   return scopes[unit][0];
 };
 
-module.exports = {
+export default {
   filter: function (unit, scope) {
     if (!(unit in scopes)) {
       throw new Error('Invalid unit');
     }
 
-    if (indexof(scopes[unit], scope) < 0) {
+    if (scopes[unit].indexOf(scope) === -1) {
       return getDefault(unit);
     }
 

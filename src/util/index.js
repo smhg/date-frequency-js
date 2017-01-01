@@ -1,7 +1,11 @@
 'use strict';
 
-module.exports = {
-  unit: require('./unit'),
-  scope: require('./scope'),
-  date: require('./date')
+import unit from './unit';
+import scope from './scope';
+import date from './date';
+
+export default {
+  unit,
+  scope,
+  date
 };
