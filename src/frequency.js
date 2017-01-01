@@ -1,19 +1,19 @@
 'use strict';
 
-var util = require('./util'),
-  foreach = require('lodash.foreach'),
-  last = require('lodash.last'),
-  reduce = require('lodash.reduce'),
-  pick = require('lodash.pick'),
-  difference = require('lodash.difference'),
-  union = require('lodash.union'),
-  values = require('lodash.values'),
-  indexof = require('lodash.indexof'),
-  createDebug = require('debug');
+import util from './util';
+import foreach from 'lodash.foreach';
+import last from 'lodash.last';
+import reduce from 'lodash.reduce';
+import pick from 'lodash.pick';
+import difference from 'lodash.difference';
+import union from 'lodash.union';
+import values from 'lodash.values';
+import indexof from 'lodash.indexof';
+import createDebug from 'debug';
 
-var debug = createDebug('date-frequency');
+const debug = createDebug('date-frequency');
 
-var stringPattern = new RegExp([
+const stringPattern = new RegExp([
   '^F',
   '(?:(\\d+|\\(\\w*\\))Y(?:\\/([E]{1}))?)?',
   '(?:(\\d+|\\(\\w*\\))M(?:\\/([EY]{1}))?)?',

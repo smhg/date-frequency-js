@@ -1,6 +1,6 @@
 'use strict';
 
-var indexof = require('lodash.indexof');
+import indexof from 'lodash.indexof';
 
 var scopes = {
   'Y': ['E'],

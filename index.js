@@ -1,3 +1,3 @@
 'use strict';
 
-module.exports = require('./lib/frequency');
+module.exports = require('./src/frequency');

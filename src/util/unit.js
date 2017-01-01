@@ -1,6 +1,6 @@
 'use strict';
 
-var indexof = require('lodash.indexof');
+import indexof from 'lodash.indexof';
 
 var first = function (arr, idx) {
     return arr.slice(0, idx);

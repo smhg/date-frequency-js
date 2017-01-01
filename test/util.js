@@ -1,7 +1,7 @@
 'use strict';
 
-var assert = require('assert'),
-  util = require('../lib/util');
+import assert from 'assert';
+import util from '../src/util';
 
 describe('util', function () {
   describe('unit', function () {

@@ -1,8 +1,8 @@
 'use strict';
 
-var assert = require('assert'),
-  Frequency = require('../lib/frequency'),
-  moment = require('moment');
+import assert from 'assert';
+import Frequency from '../src/frequency';
+import moment from 'moment';
 
 Frequency.fn.odd = require('number-kind').odd;
 Frequency.fn.even = require('number-kind').even;
