@@ -1,44 +1,45 @@
 'use strict';
 
-var epoch = new Date('0000-01-01T00:00:00'),
-  weekday = function (date) {
-    return (date.getDay() + 6) % 7 + 1;
-  },
-  minute = 60 * 1000,
-  day = 24 * 60 * minute,
-  week = 7 * day,
-  epochWeekday = weekday(epoch),
-  firstWeekStart = +epoch + (epochWeekday === 1 ? 0 : 8 - epochWeekday) * day;
+const weekday = function (date) {
+  return (date.getDay() + 6) % 7 + 1;
+};
 
-var modify = function (date, unit, value) {
+const epoch = new Date('0000-01-01T00:00:00');
+const minute = 60 * 1000;
+const day = 24 * 60 * minute;
+const week = 7 * day;
+const epochWeekday = weekday(epoch);
+const firstWeekStart = +epoch + (epochWeekday === 1 ? 0 : 8 - epochWeekday) * day;
+
+const modify = function (date, unit, value) {
   switch (unit) {
-  case 'Y':
-    date.setFullYear(date.getFullYear() + value);
-    break;
-  case 'M':
-    date.setMonth(date.getMonth() + value);
-    break;
-  case 'W':
-    date.setDate(date.getDate() + value * 7);
-    break;
-  case 'D':
-    date.setDate(date.getDate() + value);
-    break;
-  case 'h':
-    date.setHours(date.getHours() + value);
-    break;
-  case 'm':
-    date.setMinutes(date.getMinutes() + value);
-    break;
-  case 's':
-    date.setSeconds(date.getSeconds() + value);
-    break;
+    case 'Y':
+      date.setFullYear(date.getFullYear() + value);
+      break;
+    case 'M':
+      date.setMonth(date.getMonth() + value);
+      break;
+    case 'W':
+      date.setDate(date.getDate() + value * 7);
+      break;
+    case 'D':
+      date.setDate(date.getDate() + value);
+      break;
+    case 'h':
+      date.setHours(date.getHours() + value);
+      break;
+    case 'm':
+      date.setMinutes(date.getMinutes() + value);
+      break;
+    case 's':
+      date.setSeconds(date.getSeconds() + value);
+      break;
   }
 
   return date;
 };
 
-var util = {
+const util = {
   /**
    * Convert date-like objects to regular Date (adds support for moment)
    * @param Object|Date date

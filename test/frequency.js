@@ -10,7 +10,7 @@ Frequency.fn.leap = require('leap-year');
 
 describe('Frequency', function () {
   describe('#()', function () {
-    var f;
+    let f;
     it('should take date string notation', function () {
       f = new Frequency('FT9H');
       assert.equal(f.getValue('h'), 9);
@@ -29,11 +29,11 @@ describe('Frequency', function () {
 
     it('should detect invalid string notation', function () {
       assert.throws(function () {
-        new Frequency('F9H');
+        Frequency('F9H');
       });
 
       assert.throws(function () {
-        new Frequency('FT6D');
+        Frequency('FT6D');
       });
     });
 
@@ -45,7 +45,7 @@ describe('Frequency', function () {
 
   describe('#getValue()', function () {
     it('should return values set with on', function () {
-      var f = new Frequency();
+      let f = new Frequency();
 
       f.on('hour', 10).on('minute', 30);
       assert.equal(f.getValue('hour'), 10);
@@ -65,8 +65,8 @@ describe('Frequency', function () {
     });
 
     it('should handle date', function () {
-      var f = new Frequency(),
-        start = new Date(2013, 8, 2);
+      let f = new Frequency();
+      let start = new Date(2013, 8, 2);
 
       assert.deepEqual(f.next(start).toString(), new Date(2013, 8, 2).toString());
 
@@ -78,8 +78,8 @@ describe('Frequency', function () {
     });
 
     it('should handle date and time', function () {
-      var f = new Frequency(),
-        start = new Date(2013, 8, 2, 11, 10, 20);
+      let f = new Frequency();
+      let start = new Date(2013, 8, 2, 11, 10, 20);
 
       assert.equal(f.next(start).toString(), new Date(2013, 8, 2, 11, 10, 20).toString());
 
@@ -91,23 +91,23 @@ describe('Frequency', function () {
     });
 
     it('should return date if it matches', function () {
-      var f = new Frequency();
+      let f = new Frequency();
 
       f.on('hour', 10).on('minute', 0).on('second', 0); // each day at 10:00:00
       assert.equal(f.next(new Date(2013, 8, 2, 10)).toString(), (new Date(2013, 8, 2, 10)).toString());
     });
 
     it('should handle different rules', function () {
-      var f = new Frequency(),
-        start = new Date(2013, 6, 2);
+      let f = new Frequency();
+      let start = new Date(2013, 6, 2);
 
       f.on('month', 8); // each August 1st at 00:00:00
       assert.equal(f.next(start).toString(), new Date(2013, 7, 1).toString());
     });
 
     it('should increase parent of fix', function () {
-      var f = new Frequency(),
-        start = new Date(2013, 8, 2);
+      let f = new Frequency();
+      let start = new Date(2013, 8, 2);
 
       f.on('month', 3); // each March 1st at 00:00:00
       assert.equal(f.next(start).toString(), new Date(2014, 2, 1).toString());
@@ -117,23 +117,23 @@ describe('Frequency', function () {
     });
 
     it('should handle DST', function () {
-      var f = new Frequency(),
-        start = new Date(2013, 8, 2);
+      let f = new Frequency();
+      let start = new Date(2013, 8, 2);
 
       f.on('month', 11); // each November 1st at 00:00:00 (across DST)
       assert.equal(f.next(start).toString(), new Date(2013, 10, 1).toString());
     });
 
     it('should handle different scope', function () {
-      var f = new Frequency(),
-        start = new Date(2013, 8, 2, 11, 10, 20);
+      let f = new Frequency();
+      let start = new Date(2013, 8, 2, 11, 10, 20);
 
       f.on('hour', 10).on('day', 3, 'week'); // each Wednesday at 10:00:00
       assert.deepEqual(f.next(start).toString(), new Date(2013, 8, 4, 10).toString());
     });
 
     it('should work with string notation', function () {
-      var f = new Frequency('F1D/WT15H45M');
+      let f = new Frequency('F1D/WT15H45M');
       assert.deepEqual(f.next(new Date(2014, 2, 10)), new Date(2014, 2, 10, 15, 45));
       assert.deepEqual(f.next(new Date(2014, 2, 10, 15, 45, 1)), new Date(2014, 2, 10, 15, 45, 1));
       assert.deepEqual(f.next(new Date(2014, 2, 10, 15, 46)), new Date(2014, 2, 17, 15, 45));
@@ -143,12 +143,12 @@ describe('Frequency', function () {
     });
 
     it('should work with string notation containing defaults', function () {
-      var f = new Frequency('F1D/WT15H45M0S');
+      let f = new Frequency('F1D/WT15H45M0S');
       assert.deepEqual(f.next(new Date(2014, 2, 4)), new Date(2014, 2, 10, 15, 45));
     });
 
     it('should apply functions to units', function () {
-      var f = new Frequency('F(odd)W/E1D/WT15H45M0S'); // Mondays of odd weeks at 15:45:00
+      let f = new Frequency('F(odd)W/E1D/WT15H45M0S'); // Mondays of odd weeks at 15:45:00
       assert.deepEqual(
         f.next(new Date(2015, 3, 29)),
         new Date(2015, 4, 4, 15, 45)
@@ -191,7 +191,7 @@ describe('Frequency', function () {
         return month === 7 || month === 8;
       };
       f = new Frequency('F(inSummer)M1DT0H0M0S'); // First day of "summer" months at midnight
-      var date = new Date(2014, 0, 15);
+      let date = new Date(2014, 0, 15);
       date = f.next(date);
       assert.deepEqual(date, new Date(2014, 6, 1, 0, 0, 0));
       date = f.next(date.setDate(2));
@@ -202,21 +202,22 @@ describe('Frequency', function () {
   });
 
   describe('#between()', function () {
-    var arr, arrm;
+    let arr;
+    let arrm;
 
     before(function () {
       // plain javascript
-      var f = new Frequency(),
-        start = new Date(2013, 8, 2),
-        end = new Date(2013, 8, 9);
+      let f = new Frequency();
+      let start = new Date(2013, 8, 2);
+      let end = new Date(2013, 8, 9);
 
       f.on('hour', 10).on('minute', 0).on('second', 0); // each day at 10:00:00
       arr = f.between(start, end);
 
       // with moment
-      var fm = new Frequency(),
-        startm = moment(new Date(2013, 8, 2)),
-        endm = moment(new Date(2013, 8, 9));
+      let fm = new Frequency();
+      let startm = moment(new Date(2013, 8, 2));
+      let endm = moment(new Date(2013, 8, 9));
 
       fm.on('hour', 10).on('minute', 0).on('second', 0); // each day at 10:00:00
       arrm = fm.between(startm, endm);
@@ -238,31 +239,31 @@ describe('Frequency', function () {
     });
 
     it('should return using string notation', function () {
-      var f = new Frequency('F1D/WT15H45M0S');
-      var dates = f.between(new Date(2014, 2, 10), new Date(2014, 2, 17));
+      let f = new Frequency('F1D/WT15H45M0S');
+      let dates = f.between(new Date(2014, 2, 10), new Date(2014, 2, 17));
       assert.equal(dates.length, 1);
     });
 
     it('should return nothing using string notation', function () {
-      var f = new Frequency('F1D/WT15H45M0S');
-      var dates = f.between(new Date(2014, 2, 4), new Date(2014, 2, 10));
+      let f = new Frequency('F1D/WT15H45M0S');
+      let dates = f.between(new Date(2014, 2, 4), new Date(2014, 2, 10));
       assert.equal(dates.length, 0);
     });
   });
 
   describe('#compare()', function () {
     it('should detect before', function () {
-      var f = new Frequency('F1D/W');
+      let f = new Frequency('F1D/W');
       assert.ok(f.compare(new Frequency('F2D/W')) === -1);
     });
 
     it('should detect after', function () {
-      var f = new Frequency('F2D/W');
+      let f = new Frequency('F2D/W');
       assert.ok(f.compare(new Frequency('F1D/W')) === 1);
     });
 
     it('should detect equal', function () {
-      var f = new Frequency('F1D/W');
+      let f = new Frequency('F1D/W');
       assert.ok(f.compare(new Frequency('F1D/W')) === 0);
     });
   });
@@ -278,21 +279,21 @@ describe('Frequency', function () {
     });
 
     it('should output rules set with on() to string notation', function () {
-      var f = new Frequency();
+      let f = new Frequency();
 
       f.on('month', 2).on('hour', 10);
       assert.equal(f.toString(), 'F2MT10H');
     });
 
     it('should output scope set with on() to string notation', function () {
-      var f = new Frequency();
+      let f = new Frequency();
 
       f.on('day', 2, 'week').on('hour', 10);
       assert.equal(f.toString(), 'F2D/WT10H');
     });
 
     it('should respect default unit order', function () {
-      var f = new Frequency({second: {fix: 0}});
+      let f = new Frequency({second: {fix: 0}});
 
       f.on('minute', 0).on('hour', 10);
       assert.equal(f.toString(), 'FT10H0M0S');

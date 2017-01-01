@@ -2,7 +2,7 @@
 
 import indexof from 'lodash.indexof';
 
-var scopes = {
+const scopes = {
   'Y': ['E'],
   'M': ['Y', 'E'],
   'W': ['Y', 'M', 'E'],
@@ -12,7 +12,7 @@ var scopes = {
   's': ['m', 'h', 'D', 'W', 'M', 'Y', 'E']
 };
 
-var getDefault = function (unit) {
+const getDefault = function (unit) {
   if (!(unit in scopes)) {
     throw new Error('Invalid unit');
   }

@@ -2,14 +2,15 @@
 
 import indexof from 'lodash.indexof';
 
-var first = function (arr, idx) {
-    return arr.slice(0, idx);
-  },
-  rest = function (arr, idx) {
-    return arr.slice(idx);
-  };
+const first = function (arr, idx) {
+  return arr.slice(0, idx);
+};
 
-var names = {
+const rest = function (arr, idx) {
+  return arr.slice(idx);
+};
+
+const names = {
   'epoch': 'E',
   'year': 'Y',
   'month': 'M',
@@ -20,7 +21,7 @@ var names = {
   'second': 's'
 };
 
-var util = {
+const util = {
   order: ['Y', 'M', 'W', 'D', 'h', 'm', 's'],
   defaults: {
     'Y': 0,
@@ -55,8 +56,8 @@ var util = {
    * @return Number Compare result
    */
   compare: function (left, right) {
-    var leftIdx = indexof(util.order, left),
-      rightIdx = indexof(util.order, right);
+    let leftIdx = indexof(util.order, left);
+    let rightIdx = indexof(util.order, right);
 
     if (leftIdx < rightIdx) {
       return -1;
@@ -89,10 +90,10 @@ var util = {
    * @return Array The units between upper and lower limit
    */
   between: function (left, right) {
-    var result = [];
+    let result = [];
 
     if (left !== right) {
-      var lower = util.lower(left);
+      let lower = util.lower(left);
 
       result = first(lower, indexof(lower, right));
     }
