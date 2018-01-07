@@ -224,6 +224,12 @@ function createFrequency (rules) {
     return date;
   };
 
+  /**
+   * Find occurences between a start and end date
+   * @param {Date} [start] The start date
+   * @param {Date} [end] The end date
+   * @return {Date[]} The orrurences between both dates
+   */
   function between (start, end) {
     let result = [];
     let d = util.date.clone(util.date.convert(start));
@@ -242,6 +248,11 @@ function createFrequency (rules) {
     return result;
   };
 
+  /**
+   * Compare with another frequency to determine sort order
+   * @param {Object} frequency The frequency with which to compare with
+   * @return {number} -1, 0 or 1
+   */
   function compare (frequency) {
     for (let i = 0; i < util.unit.order.length; i++) {
       let unit = util.unit.order[i];
@@ -271,6 +282,10 @@ function createFrequency (rules) {
     return 0;
   };
 
+  /**
+   * Convert the ruleset to a string
+   * @return {string} An ISO-style representation of the ruleset
+   */
   function toString () {
     return util.unit.order
       .filter(unit => unit in rules)
