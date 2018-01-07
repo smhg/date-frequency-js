@@ -47,14 +47,14 @@ describe('Frequency', function () {
     it('should return values set with on', function () {
       let f = createFrequency();
 
-      f.on('hour', 10).on('minute', 30);
+      f = f.on('hour', 10).on('minute', 30);
       assert.equal(f.getValue('hour'), 10);
       assert.equal(f.getValue('m', 'h'), 30);
 
-      f.on('day', 3, 'week');
+      f = f.on('day', 3, 'week');
       assert.equal(f.getValue('day', 'week'), 3);
 
-      f.on('week', {fn: 'odd', scope: 'E'});
+      f = f.on('week', {fn: 'odd', scope: 'E'});
       assert.equal(f.getValue('week', 'epoch'), 'odd');
     });
   });
@@ -68,32 +68,32 @@ describe('Frequency', function () {
       let f = createFrequency();
       let start = new Date(2013, 8, 2);
 
-      assert.deepEqual(f.next(start).toString(), new Date(2013, 8, 2).toString());
+      assert.deepEqual(f.next(start).toString(), (new Date(2013, 8, 2)).toString());
 
-      f.on('hour', 10); // each day at 10:00:00
-      assert.deepEqual(f.next(start).toString(), new Date(2013, 8, 2, 10).toString());
+      f = f.on('hour', 10); // each day at 10:00:00
+      assert.deepEqual(f.next(start).toString(), (new Date(2013, 8, 2, 10)).toString());
 
-      f.on('hour', 0); // each day at 00:00:00
-      assert.deepEqual(f.next(start).toString(), new Date(2013, 8, 2).toString());
+      f = f.on('hour', 0); // each day at 00:00:00
+      assert.deepEqual(f.next(start).toString(), (new Date(2013, 8, 2)).toString());
     });
 
     it('should handle date and time', function () {
       let f = createFrequency();
       let start = new Date(2013, 8, 2, 11, 10, 20);
 
-      assert.equal(f.next(start).toString(), new Date(2013, 8, 2, 11, 10, 20).toString());
+      assert.equal(f.next(start).toString(), (new Date(2013, 8, 2, 11, 10, 20)).toString());
 
-      f.on('hour', 10); // each day at 10:00:00
-      assert.equal(f.next(start).toString(), new Date(2013, 8, 3, 10).toString());
+      f = f.on('hour', 10); // each day at 10:00:00
+      assert.equal(f.next(start).toString(), (new Date(2013, 8, 3, 10)).toString());
 
-      f.on('hour', 0); // each day at 00:00:00
-      assert.equal(f.next(start).toString(), new Date(2013, 8, 3).toString());
+      f = f.on('hour', 0); // each day at 00:00:00
+      assert.equal(f.next(start).toString(), (new Date(2013, 8, 3)).toString());
     });
 
     it('should return date if it matches', function () {
       let f = createFrequency();
 
-      f.on('hour', 10).on('minute', 0).on('second', 0); // each day at 10:00:00
+      f = f.on('hour', 10).on('minute', 0).on('second', 0); // each day at 10:00:00
       assert.equal(f.next(new Date(2013, 8, 2, 10)).toString(), (new Date(2013, 8, 2, 10)).toString());
     });
 
@@ -101,35 +101,35 @@ describe('Frequency', function () {
       let f = createFrequency();
       let start = new Date(2013, 6, 2);
 
-      f.on('month', 8); // each August 1st at 00:00:00
-      assert.equal(f.next(start).toString(), new Date(2013, 7, 1).toString());
+      f = f.on('month', 8); // each August 1st at 00:00:00
+      assert.equal(f.next(start).toString(), (new Date(2013, 7, 1)).toString());
     });
 
     it('should increase parent of fix', function () {
       let f = createFrequency();
       let start = new Date(2013, 8, 2);
 
-      f.on('month', 3); // each March 1st at 00:00:00
-      assert.equal(f.next(start).toString(), new Date(2014, 2, 1).toString());
+      f = f.on('month', 3); // each March 1st at 00:00:00
+      assert.equal(f.next(start).toString(), (new Date(2014, 2, 1)).toString());
 
-      f.on('month', 3).on('minute', 30); // each March 1st every 30 minutes
-      assert.equal(f.next(start).toString(), new Date(2014, 2, 1, 0, 30).toString());
+      f = f.on('month', 3).on('minute', 30); // each March 1st every 30 minutes
+      assert.equal(f.next(start).toString(), (new Date(2014, 2, 1, 0, 30)).toString());
     });
 
     it('should handle DST', function () {
       let f = createFrequency();
       let start = new Date(2013, 8, 2);
 
-      f.on('month', 11); // each November 1st at 00:00:00 (across DST)
-      assert.equal(f.next(start).toString(), new Date(2013, 10, 1).toString());
+      f = f.on('month', 11); // each November 1st at 00:00:00 (across DST)
+      assert.equal(f.next(start).toString(), (new Date(2013, 10, 1)).toString());
     });
 
     it('should handle different scope', function () {
       let f = createFrequency();
       let start = new Date(2013, 8, 2, 11, 10, 20);
 
-      f.on('hour', 10).on('day', 3, 'week'); // each Wednesday at 10:00:00
-      assert.deepEqual(f.next(start).toString(), new Date(2013, 8, 4, 10).toString());
+      f = f.on('hour', 10).on('day', 3, 'week'); // each Wednesday at 10:00:00
+      assert.deepEqual(f.next(start).toString(), (new Date(2013, 8, 4, 10)).toString());
     });
 
     it('should work with string notation', function () {
@@ -211,7 +211,7 @@ describe('Frequency', function () {
       let start = new Date(2013, 8, 2);
       let end = new Date(2013, 8, 9);
 
-      f.on('hour', 10).on('minute', 0).on('second', 0); // each day at 10:00:00
+      f = f.on('hour', 10).on('minute', 0).on('second', 0); // each day at 10:00:00
       arr = f.between(start, end);
 
       // with moment
@@ -219,7 +219,7 @@ describe('Frequency', function () {
       let startm = moment(new Date(2013, 8, 2));
       let endm = moment(new Date(2013, 8, 9));
 
-      fm.on('hour', 10).on('minute', 0).on('second', 0); // each day at 10:00:00
+      fm = fm.on('hour', 10).on('minute', 0).on('second', 0); // each day at 10:00:00
       arrm = fm.between(startm, endm);
     });
 
@@ -281,21 +281,21 @@ describe('Frequency', function () {
     it('should output rules set with on() to string notation', function () {
       let f = createFrequency();
 
-      f.on('month', 2).on('hour', 10);
+      f = f.on('month', 2).on('hour', 10);
       assert.equal(f.toString(), 'F2MT10H');
     });
 
     it('should output scope set with on() to string notation', function () {
       let f = createFrequency();
 
-      f.on('day', 2, 'week').on('hour', 10);
+      f = f.on('day', 2, 'week').on('hour', 10);
       assert.equal(f.toString(), 'F2D/WT10H');
     });
 
     it('should respect default unit order', function () {
       let f = createFrequency({second: {fix: 0}});
 
-      f.on('minute', 0).on('hour', 10);
+      f = f.on('minute', 0).on('hour', 10);
       assert.equal(f.toString(), 'FT10H0M0S');
     });
   });

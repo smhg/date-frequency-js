@@ -56,45 +56,27 @@ const util = {
   },
   get: {
     Y: {
-      E: function (date) {
-        return date.getFullYear();
-      }
+      E: date => date.getFullYear()
     },
     M: {
-      Y: function (date) {
-        return date.getMonth() + 1;
-      }
+      Y: date => date.getMonth() + 1
     },
     W: {
-      E: function (date) {
-        return Math.floor((Math.abs(firstWeekStart) + (+date) - date.getTimezoneOffset() * minute) / week);
-      }
+      E: date => Math.floor((Math.abs(firstWeekStart) + (+date) - date.getTimezoneOffset() * minute) / week)
     },
     D: {
-      Y: function (date) {
-        return (+date - Date.UTC(date.getFullYear(), 0)) / day;
-      },
-      M: function (date) {
-        return date.getDate();
-      },
-      W: function (date) {
-        return weekday(date);
-      }
+      Y: date => (+date - Date.UTC(date.getFullYear(), 0)) / day,
+      M: date => date.getDate(),
+      W: date => weekday(date)
     },
     h: {
-      D: function (date) {
-        return date.getHours();
-      }
+      D: date => date.getHours()
     },
     m: {
-      h: function (date) {
-        return date.getMinutes();
-      }
+      h: date => date.getMinutes()
     },
     s: {
-      m: function (date) {
-        return date.getSeconds();
-      }
+      m: date => date.getSeconds()
     }
   },
   getValue: function (unit, scope, value) {

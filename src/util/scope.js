@@ -12,7 +12,7 @@ const scopes = {
 
 const getDefault = function (unit) {
   if (!(unit in scopes)) {
-    throw Error('Invalid unit');
+    throw Error(`Invalid unit: ${unit}`);
   }
 
   return scopes[unit][0];
@@ -21,7 +21,7 @@ const getDefault = function (unit) {
 export default {
   filter: function (unit, scope) {
     if (!(unit in scopes)) {
-      throw Error('Invalid unit');
+      throw Error(`Invalid unit: ${unit}`);
     }
 
     if (scopes[unit].indexOf(scope) === -1) {
