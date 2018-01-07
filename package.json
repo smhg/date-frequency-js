@@ -39,7 +39,7 @@
     "eslint-plugin-promise": "^3.6.0",
     "eslint-plugin-standard": "^3.0.1",
     "leap-year": "^2.0.1",
-    "mocha": "^4.1.0",
+    "mocha": "^3.5.3",
     "moment": "^2.20.1",
     "number-kind": "^0.1.0"
   },
