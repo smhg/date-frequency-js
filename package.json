@@ -24,7 +24,7 @@
     "temporal",
     "cron"
   ],
-  "author": "",
+  "author": "Sam Hauglustaine",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/smhg/date-frequency-js/issues"
