@@ -81,7 +81,12 @@ function createFrequency (rules) {
   };
 
   function next (date) {
-    date = util.date.clone(util.date.convert(date));
+    if (date) {
+      date = util.date.clone(util.date.convert(date));
+    } else {
+      date = new Date();
+    }
+
     debug('next', 'IN', date.toString());
 
     let scopes = Object.keys(util.unit.defaults)
