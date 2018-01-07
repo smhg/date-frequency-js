@@ -10,7 +10,7 @@ const scopes = {
   's': ['m', 'h', 'D', 'W', 'M', 'Y', 'E']
 };
 
-const getDefault = function (unit) {
+function getDefault (unit) {
   if (!(unit in scopes)) {
     throw Error(`Invalid unit: ${unit}`);
   }
@@ -19,7 +19,7 @@ const getDefault = function (unit) {
 };
 
 export default {
-  filter: function (unit, scope) {
+  filter: (unit, scope) => {
     if (!(unit in scopes)) {
       throw Error(`Invalid unit: ${unit}`);
     }

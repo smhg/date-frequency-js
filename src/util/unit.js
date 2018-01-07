@@ -34,7 +34,7 @@ const util = {
    * @param String unit The unit to clean up
    * @return String|undefined The filtered unit
    */
-  filter: function (unit) {
+  filter: unit => {
     if (!unit) {
       return undefined;
     }
@@ -53,7 +53,7 @@ const util = {
    * @param String right Second unit
    * @return Number Compare result
    */
-  compare: function (left, right) {
+  compare: (left, right) => {
     let leftIdx = util.order.indexOf(left);
     let rightIdx = util.order.indexOf(right);
 
@@ -70,24 +70,20 @@ const util = {
    * @param String unit Upper limit
    * @return Array The units lower than the upper limit
    */
-  lower: function (unit) {
-    return rest(util.order, util.order.indexOf(unit) + 1);
-  },
+  lower: unit => rest(util.order, util.order.indexOf(unit) + 1),
   /**
    * Get higher units
    * @param String unit Lower limit
    * @return Array The units higher than the lower limit
    */
-  higher: function (unit) {
-    return first(util.order, util.order.indexOf(unit));
-  },
+  higher: unit => first(util.order, util.order.indexOf(unit)),
   /**
    * Get units between upper and lower limit
    * @param String left Upper limit
    * @param String right Lower limit
    * @return Array The units between upper and lower limit
    */
-  between: function (left, right) {
+  between: (left, right) => {
     let result = [];
 
     if (left !== right) {

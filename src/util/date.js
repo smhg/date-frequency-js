@@ -1,8 +1,6 @@
 'use strict';
 
-const weekday = function (date) {
-  return (date.getDay() + 6) % 7 + 1;
-};
+const weekday = date => (date.getDay() + 6) % 7 + 1;
 
 const epoch = new Date('0000-01-01T00:00:00');
 const minute = 60 * 1000;
@@ -11,7 +9,7 @@ const week = 7 * day;
 const epochWeekday = weekday(epoch);
 const firstWeekStart = +epoch + (epochWeekday === 1 ? 0 : 8 - epochWeekday) * day;
 
-const modify = function (date, unit, value) {
+function modify (date, unit, value) {
   switch (unit) {
     case 'Y':
       date.setFullYear(date.getFullYear() + value);
@@ -45,15 +43,8 @@ const util = {
    * @param Object|Date date
    * @return Date
    */
-  convert: function (date) {
-    if (typeof date.toDate === 'function') {
-      return date.toDate();
-    }
-    return date;
-  },
-  clone: function (date) {
-    return new Date(+date);
-  },
+  convert: date => typeof date.toDate === 'function' ? date.toDate() : date,
+  clone: date => new Date(+date),
   get: {
     Y: {
       E: date => date.getFullYear()
@@ -90,12 +81,8 @@ const util = {
 
     return util.get[unit][scope](value);
   },
-  add: function (date, unit, value) {
-    return modify(date, unit, value);
-  },
-  sub: function (date, unit, value) {
-    return modify(date, unit, -value);
-  }
+  add: (date, unit, value) => modify(date, unit, value),
+  sub: (date, unit, value) => modify(date, unit, -value)
 };
 
 export default util;

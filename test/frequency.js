@@ -60,6 +60,18 @@ describe('Frequency', function () {
   });
 
   describe('#next()', function () {
+    it('should use the current date as default', function () {
+      const date = new Date();
+      date.setMinutes(0);
+      date.setSeconds(0);
+      const twoHoursLater = new Date(+date);
+      twoHoursLater.setHours(twoHoursLater.getHours() + 2);
+
+      const f = createFrequency({h: {fix: twoHoursLater.getHours()}});
+
+      assert.equal(f.next(date).toString(), twoHoursLater.toString());
+    });
+
     it('should return a Date instance', function () {
       assert.equal(typeof (createFrequency()).next(new Date(2013, 8, 2)).getTime, 'function');
     });
