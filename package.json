@@ -2,7 +2,7 @@
   "name": "date-frequency",
   "version": "0.5.2",
   "description": "Temporal frequency library",
-  "main": "index.js",
+  "main": "lib/frequency.js",
   "scripts": {
     "lint": "eslint index.js src test",
     "build": "babel src -d lib",
