@@ -10,7 +10,7 @@ import createDebug from 'debug';
 
 const debug = createDebug('date-frequency');
 
-const stringPattern = new RegExp([
+const stringPattern = RegExp([
   '^F',
   '(?:(\\d+|\\(\\w*\\))Y(?:\\/([E]{1}))?)?',
   '(?:(\\d+|\\(\\w*\\))M(?:\\/([EY]{1}))?)?',
