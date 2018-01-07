@@ -38,7 +38,7 @@ const Frequency = function (rules) {
     let matches = stringPattern.exec(rules).slice(1);
 
     if (matches.length <= 0) {
-      throw new Error(`Invalid frequency "${rules}"`);
+      throw Error(`Invalid frequency "${rules}"`);
     }
 
     rules = {};
@@ -75,7 +75,7 @@ Frequency.prototype.on = function (unit, options) {
   unit = util.unit.filter(unit);
 
   if (unit === undefined) {
-    throw new Error('Invalid unit');
+    throw Error('Invalid unit');
   }
 
   if (typeof options !== 'object') {
@@ -91,7 +91,7 @@ Frequency.prototype.on = function (unit, options) {
 
   if (options.fn) {
     if (!Frequency.fn[options.fn]) {
-      throw new Error(`Filter function "${options.fn}" not available`);
+      throw Error(`Filter function "${options.fn}" not available`);
     }
 
     this.rules[unit].fn = options.fn;

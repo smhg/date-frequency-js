@@ -99,11 +99,11 @@ const util = {
   },
   getValue: function (unit, scope, value) {
     if (!util.get[unit]) {
-      throw new Error('Unit not implemented: ' + unit);
+      throw Error('Unit not implemented: ' + unit);
     }
 
     if (!util.get[unit][scope]) {
-      throw new Error('Scope not implemented: ' + unit + ' of ' + scope);
+      throw Error('Scope not implemented: ' + unit + ' of ' + scope);
     }
 
     return util.get[unit][scope](value);
