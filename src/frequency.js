@@ -1,7 +1,5 @@
 'use strict';
 
-import 'core-js/modules/es6.array.find';
-
 import util from './util';
 import difference from 'lodash.difference';
 import pick from 'lodash.pick';

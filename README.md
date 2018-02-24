@@ -6,7 +6,7 @@ frequency [![Build status](https://api.travis-ci.org/smhg/date-frequency-js.png)
 ```sh
 npm install --save date-frequency
 ```
-If ES3 support is necessary, also install `babel-polyfill`.
+If <=ES5 support is necessary, also install `babel-polyfill`.
 
 ## Usage
 ```javascript

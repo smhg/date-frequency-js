@@ -1,5 +1,6 @@
 'use strict';
 
+import 'babel-polyfill';
 import assert from 'assert';
 import createFrequency from '../src/frequency';
 import moment from 'moment';
