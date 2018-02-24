@@ -1,7 +1,6 @@
 'use strict';
 
 import util from './util';
-import values from 'lodash.values';
 import last from 'lodash.last';
 import difference from 'lodash.difference';
 import pick from 'lodash.pick';
@@ -174,7 +173,7 @@ function createFrequency (rules) {
               // find closest non fixed parent
               const parent = last(
                 difference(
-                  values(
+                  Object.values(
                     pick(
                       scopes,
                       union(util.unit.higher(unit), [unit])

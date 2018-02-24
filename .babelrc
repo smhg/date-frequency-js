@@ -1,13 +1,11 @@
 {
   "presets": [
-    [
-      "env",
-      {
-        "targets": {
-          "browsers": ["last 2 versions", "ie >= 8"],
-          "node": "4"
-        }
+    ["env", {
+      "targets": {
+        "browsers": ["last 2 versions", "ie >= 8"],
+        "node": "4"
       }
-    ]
-  ]
+    }]
+  ],
+  "plugins": ["transform-runtime"]
 }
