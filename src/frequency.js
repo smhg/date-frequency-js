@@ -1,7 +1,6 @@
 'use strict';
 
 import util from './util';
-import last from 'lodash.last';
 import difference from 'lodash.difference';
 import pick from 'lodash.pick';
 import union from 'lodash.union';
@@ -171,17 +170,17 @@ function createFrequency (rules) {
               util.unit.lower(unit).forEach(createUnitResetter(defaults, scopes, unit));
             } else if (datePart > rule.fix) {
               // find closest non fixed parent
-              const parent = last(
-                difference(
-                  Object.values(
-                    pick(
-                      scopes,
-                      union(util.unit.higher(unit), [unit])
-                    )
-                  ),
-                  fixedUnits
-                )
-              );
+              const parent = difference(
+                Object.values(
+                  pick(
+                    scopes,
+                    union(util.unit.higher(unit), [unit])
+                  )
+                ),
+                fixedUnits
+              )
+                .slice(-1)[0]; // last value
+
               const parentUnit = Object.keys(scopes)
                 .find(unit => scopes[unit] === parent);
 
