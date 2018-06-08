@@ -161,6 +161,7 @@ describe('Frequency', function () {
     });
 
     it('should apply functions to units', function () {
+      // odd and even
       let f = createFrequency('F(odd)W/E1D/WT15H45M0S'); // Mondays of odd weeks at 15:45:00
       assert.deepEqual(
         f.next(new Date(2015, 3, 29)),
@@ -194,12 +195,14 @@ describe('Frequency', function () {
         new Date(2016, 2, 18, 13, 0, 0)
       );
 
+      // weekend
       createFrequency.fn.weekend = function (weekday) {
         return weekday === 6 || weekday === 7;
       };
       f = createFrequency('F(weekend)D/WT12H0M0S'); // Weekends at 12:00:00
       assert.deepEqual(f.next(new Date(2014, 7, 20)), new Date(2014, 7, 23, 12));
 
+      // summer
       createFrequency.fn.inSummer = function (month) {
         return month === 7 || month === 8;
       };
@@ -211,6 +214,26 @@ describe('Frequency', function () {
       assert.deepEqual(date, new Date(2014, 7, 1, 0, 0, 0));
       date = f.next(date.setDate(2));
       assert.deepEqual(date, new Date(2015, 6, 1, 0, 0, 0));
+
+      // first full week of the month
+      createFrequency.fn.inFirstFullWeek = function (day, date) {
+        const firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+        const firstMonday = ((8 - firstDay.getDay()) % 7) + 1; // day of the month of first monday
+
+        return firstMonday <= day && day < firstMonday + 7;
+      };
+
+      f = createFrequency('F(inFirstFullWeek)DT0H0M0S');
+
+      assert.deepEqual(
+        f.next(new Date(2018, 5, 1)),
+        new Date(2018, 5, 4)
+      );
+
+      assert.deepEqual(
+        f.next(new Date(2018, 5, 4, 12)),
+        new Date(2018, 5, 5)
+      );
     });
   });
 
