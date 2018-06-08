@@ -4,10 +4,12 @@ import 'babel-polyfill';
 import assert from 'assert';
 import createFrequency from '../src/frequency';
 import moment from 'moment';
+import {odd, even} from 'number-kind';
+import leapYear from 'leap-year';
 
-createFrequency.fn.odd = require('number-kind').odd;
-createFrequency.fn.even = require('number-kind').even;
-createFrequency.fn.leap = require('leap-year');
+createFrequency.fn.odd = odd;
+createFrequency.fn.even = even;
+createFrequency.fn.leap = leapYear;
 
 describe('Frequency', function () {
   describe('#()', function () {
@@ -162,7 +164,7 @@ describe('Frequency', function () {
 
     it('should apply functions to units', function () {
       // odd and even
-      let f = createFrequency('F(odd)W/E1D/WT15H45M0S'); // Mondays of odd weeks at 15:45:00
+      let f = createFrequency('F(odd)W1D/WT15H45M0S'); // Mondays of odd weeks at 15:45:00
       assert.deepEqual(
         f.next(new Date(2015, 3, 29)),
         new Date(2015, 4, 4, 15, 45)
@@ -173,12 +175,12 @@ describe('Frequency', function () {
       );
 
       assert.deepEqual(
-        (createFrequency('F(even)W/ET9H30M0S')) // Every day of even weeks at 9:30:00
+        (createFrequency('F(even)WT9H30M0S')) // Every day of even weeks at 9:30:00
           .next(new Date(2015, 4, 4)),
         new Date(2015, 4, 11, 9, 30)
       );
 
-      f = createFrequency('F(odd)W/E5D/WT13H0M0S'); // Fridays of odd weeks at 13:00:00
+      f = createFrequency('F(odd)W5D/WT13H0M0S'); // Fridays of odd weeks at 13:00:00
       assert.deepEqual(
         f.next(new Date(2016, 1, 26, 13, 30, 0)),
         new Date(2016, 2, 11, 13, 0, 0)
@@ -190,7 +192,7 @@ describe('Frequency', function () {
       );
 
       assert.deepEqual(
-        (createFrequency('F(even)W/E5D/WT13H0M0S')) // Fridays of even weeks at 13:00:00
+        (createFrequency('F(even)W5D/WT13H0M0S')) // Fridays of even weeks at 13:00:00
           .next(new Date(2016, 2, 4, 13, 30, 0)),
         new Date(2016, 2, 18, 13, 0, 0)
       );
@@ -311,7 +313,7 @@ describe('Frequency', function () {
       assert.equal((createFrequency('F1D/WT15H45M0S')).toString(), 'F1D/WT15H45M0S');
 
       assert.equal((createFrequency('F(leap)Y1D/WT15H45M0S')).toString(), 'F(leap)Y1D/WT15H45M0S');
-      assert.equal((createFrequency('F(odd)W/E1D/WT15H45M0S')).toString(), 'F(odd)W/E1D/WT15H45M0S');
+      assert.equal((createFrequency('F(odd)W1D/WT15H45M0S')).toString(), 'F(odd)W1D/WT15H45M0S');
     });
 
     it('should output rules set with on() to string notation', function () {

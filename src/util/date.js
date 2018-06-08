@@ -1,13 +1,8 @@
 'use strict';
 
-const weekday = date => (date.getDay() + 6) % 7 + 1;
+import {weekNumber} from 'weeknumber';
 
-const epoch = new Date('0000-01-01T00:00:00');
-const minute = 60 * 1000;
-const day = 24 * 60 * minute;
-const week = 7 * day;
-const epochWeekday = weekday(epoch);
-const firstWeekStart = +epoch + (epochWeekday === 1 ? 0 : 8 - epochWeekday) * day;
+const weekday = date => (date.getDay() + 6) % 7 + 1;
 
 function modify (date, unit, value) {
   switch (unit) {
@@ -53,10 +48,9 @@ const util = {
       Y: date => date.getMonth() + 1
     },
     W: {
-      E: date => Math.floor((Math.abs(firstWeekStart) + (+date) - date.getTimezoneOffset() * minute) / week)
+      Y: weekNumber
     },
     D: {
-      Y: date => (+date - Date.UTC(date.getFullYear(), 0)) / day,
       M: date => date.getDate(),
       W: date => weekday(date)
     },

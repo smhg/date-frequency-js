@@ -6,7 +6,9 @@
   "scripts": {
     "lint": "eslint index.js src test",
     "build": "babel src -d lib",
-    "test": "export TZ=Europe/Brussels && mocha --compilers js:babel-register",
+    "test-timezone1": "export TZ=Europe/Brussels && mocha --compilers js:babel-register",
+    "test-timezone2": "export TZ=America/New_York && mocha --compilers js:babel-register",
+    "test": "npm run test-timezone1 && npm run test-timezone2",
     "clean": "rm -rf lib",
     "preversion": "npm run lint && npm test",
     "postversion": "git push && git push --tags",
@@ -52,6 +54,7 @@
     "debug": "^3.1.0",
     "lodash.difference": "^4.5.0",
     "lodash.pick": "^4.4.0",
-    "lodash.union": "^4.6.0"
+    "lodash.union": "^4.6.0",
+    "weeknumber": "^1.0.0"
   }
 }
