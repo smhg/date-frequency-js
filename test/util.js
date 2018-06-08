@@ -47,6 +47,8 @@ describe('util', function () {
       it('should return date parts', function () {
         assert.equal(util.date.get.D.W(new Date(2014, 1, 3)), 1);
         assert.equal(util.date.get.D.W(new Date(2014, 1, 9)), 7);
+        assert.equal(util.date.get.D.Y(new Date(2018, 6, 2)), 182);
+        assert.equal(util.date.get.D.Y(new Date(2021, 0, 1)), 1);
         assert.equal(util.date.get.W.Y(new Date(2018, 6, 1)), 26);
         assert.equal(util.date.get.W.Y(new Date(2021, 0, 1)), 53);
       });
