@@ -180,21 +180,22 @@ describe('Frequency', function () {
         new Date(2015, 4, 11, 9, 30)
       );
 
-      f = createFrequency('F(odd)W5D/WT13H0M0S'); // Fridays of odd weeks at 13:00:00
       assert.deepStrictEqual(
-        f.next(new Date(2016, 1, 26, 13, 30, 0)),
-        new Date(2016, 2, 11, 13, 0, 0)
+        createFrequency('F(even)W5D/WT13H0M0S') // Fridays of odd weeks at 13:00:00
+          .next(new Date(2016, 1, 26, 12, 0, 0)), // date in even week
+        new Date(2016, 1, 26, 13, 0, 0)
       );
 
       assert.deepStrictEqual(
-        f.next(new Date(2016, 1, 26, 14, 30, 0)),
-        new Date(2016, 2, 11, 13, 0, 0)
+        createFrequency('F(odd)W5D/WT13H0M0S') // Fridays of odd weeks at 13:00:00
+          .next(new Date(2016, 1, 26, 13, 30, 0)), // date in even week
+        new Date(2016, 2, 4, 13, 0, 0)
       );
 
       assert.deepStrictEqual(
-        (createFrequency('F(even)W5D/WT13H0M0S')) // Fridays of even weeks at 13:00:00
-          .next(new Date(2016, 2, 4, 13, 30, 0)),
-        new Date(2016, 2, 18, 13, 0, 0)
+        createFrequency('F(even)W5D/WT13H0M0S') // Fridays of even weeks at 13:00:00
+          .next(new Date(2016, 1, 26, 13, 30, 0)), // date in even week
+        new Date(2016, 2, 11, 13, 0, 0)
       );
 
       // weekend
