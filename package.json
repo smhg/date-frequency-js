@@ -55,6 +55,6 @@
     "lodash.difference": "^4.5.0",
     "lodash.pick": "^4.4.0",
     "lodash.union": "^4.6.0",
-    "weeknumber": "^1.0.0"
+    "weeknumber": "^1.1.1"
   }
 }
