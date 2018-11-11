@@ -61,4 +61,4 @@ function createRule (unit, options) {
 }
 
 export default createRule;
-export {parseRules};
+export { parseRules };

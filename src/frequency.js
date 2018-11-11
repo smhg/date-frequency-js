@@ -5,7 +5,7 @@ import difference from 'lodash.difference';
 import pick from 'lodash.pick';
 import union from 'lodash.union';
 import createDebug from 'debug';
-import createRule, {parseRules} from './rule';
+import createRule, { parseRules } from './rule';
 
 const debug = createDebug('date-frequency');
 
@@ -51,7 +51,7 @@ function createFrequency (rules) {
     }
 
     if (typeof options !== 'object') {
-      options = {fix: options};
+      options = { fix: options };
 
       if (scope) {
         options.scope = scope;
@@ -61,7 +61,7 @@ function createFrequency (rules) {
     return createFrequency(Object.assign(
       {},
       rules,
-      {[unit]: createRule(unit, options)}
+      { [unit]: createRule(unit, options) }
     ));
   };
 
@@ -135,7 +135,7 @@ function createFrequency (rules) {
       };
     };
 
-    const applyRuleFn = function (date, unit, {fn, scope}) {
+    const applyRuleFn = function (date, unit, { fn, scope }) {
       const f = createFrequency.fn[fn];
 
       let success = f(util.date.getValue(unit, scope, date), date);

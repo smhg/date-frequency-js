@@ -1,6 +1,6 @@
 'use strict';
 
-import {weekNumber} from 'weeknumber';
+import { weekNumber } from 'weeknumber';
 
 const weekday = date => (date.getDay() + 6) % 7 + 1;
 
