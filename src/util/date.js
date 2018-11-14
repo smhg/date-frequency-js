@@ -2,7 +2,14 @@
 
 import { dayOfYear, weekNumber } from 'weeknumber';
 
+const MINUTE = 60000;
+const WEEK = 604800000;
+
 const weekday = date => (date.getDay() + 6) % 7 + 1;
+
+const weekEpoch = new Date(1970, 0, -2); // monday before unix epoch in local timezone
+const weekOfEpoch = date =>
+  Math.abs(Math.floor((date - weekEpoch + (weekEpoch.getTimezoneOffset() - date.getTimezoneOffset()) * MINUTE) / WEEK));
 
 function modify (date, unit, value) {
   switch (unit) {
@@ -48,6 +55,7 @@ const util = {
       Y: date => date.getMonth() + 1
     },
     W: {
+      E: weekOfEpoch,
       Y: weekNumber
     },
     D: {

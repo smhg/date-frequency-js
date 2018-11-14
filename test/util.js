@@ -49,6 +49,7 @@ describe('util', function () {
         assert.strictEqual(util.date.get.D.W(new Date(2014, 1, 9)), 7);
         assert.strictEqual(util.date.get.W.Y(new Date(2018, 6, 1)), 26);
         assert.strictEqual(util.date.get.W.Y(new Date(2021, 0, 1)), 53);
+        assert.strictEqual(util.date.get.W.E(new Date(1970, 0, 1)), 0);
       });
     });
   });
