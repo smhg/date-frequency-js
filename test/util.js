@@ -47,9 +47,14 @@ describe('util', function () {
       it('should return date parts', function () {
         assert.strictEqual(util.date.get.D.W(new Date(2014, 1, 3)), 1);
         assert.strictEqual(util.date.get.D.W(new Date(2014, 1, 9)), 7);
+
         assert.strictEqual(util.date.get.W.Y(new Date(2018, 6, 1)), 26);
         assert.strictEqual(util.date.get.W.Y(new Date(2021, 0, 1)), 53);
+
+        assert.strictEqual(util.date.get.W.E(new Date(1970, 0, 5)), 1);
         assert.strictEqual(util.date.get.W.E(new Date(1970, 0, 1)), 0);
+        assert.strictEqual(util.date.get.W.E(new Date(1969, 11, 28, 23, 59, 59)), -1);
+        assert.strictEqual(util.date.get.W.E(new Date(2018, 10, 14)), 2550);
       });
     });
   });
