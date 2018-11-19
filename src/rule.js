@@ -46,7 +46,7 @@ function parseRules (string) {
   return rules;
 }
 
-function createRule (unit, options) {
+function createRule (unit, options = {}) {
   let rule = {
     scope: scopeUtil.filter(unit, unitUtil.filter(options.scope))
   };
