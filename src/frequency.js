@@ -181,7 +181,7 @@ function createFrequency (rules) {
               )
                 .slice(-1)[0]; // last value
 
-              const parentUnit = Object.keys(scopes)
+              const unitScopedToParent = Object.keys(scopes)
                 .find(unit => scopes[unit] === parent);
 
               // raise that parent
@@ -194,7 +194,7 @@ function createFrequency (rules) {
               // reset everything below that parent (except for fixed values above the current unit)
               union(
                 difference(
-                  util.unit.between(parentUnit, unit),
+                  util.unit.between(unitScopedToParent, unit),
                   fixedUnits
                 ),
                 [unit],

@@ -16,7 +16,7 @@ const stringPattern = RegExp([
 
 function parseRules (string) {
   let units = unitUtil.order;
-  let matches = stringPattern.exec(string).slice(1);
+  let matches = (stringPattern.exec(string) || []).slice(1);
 
   if (matches.length <= 0) {
     throw Error(`Invalid frequency "${string}"`);

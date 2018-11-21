@@ -6,11 +6,24 @@ import createFrequency from '../src/frequency';
 import moment from 'moment';
 import { odd, even } from 'number-kind';
 import leapYear from 'leap-year';
+import fullWeek from 'full-week';
 
-createFrequency.fn.odd = odd;
-createFrequency.fn.even = even;
-createFrequency.fn.leap = leapYear;
-createFrequency.fn.inThirdWeek = week => week === 3;
+const generateInFullWeek = idx =>
+  (week, date) => {
+    const start = fullWeek(idx, date.getFullYear(), date.getMonth());
+    const end = new Date(+start);
+    end.setDate(start.getDate() + 7);
+
+    return start <= date && date < end;
+  };
+
+Object.assign(createFrequency.fn, {
+  odd,
+  even,
+  leap: leapYear,
+  inFirstFullWeek: generateInFullWeek(1),
+  inThirdFullWeek: generateInFullWeek(3)
+});
 
 describe('Frequency', function () {
   describe('#()', function () {
@@ -219,14 +232,6 @@ describe('Frequency', function () {
       date = f.next(date.setDate(2));
       assert.deepStrictEqual(date, new Date(2015, 6, 1, 0, 0, 0));
 
-      // first full week of the month
-      createFrequency.fn.inFirstFullWeek = function (day, date) {
-        const firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
-        const firstMonday = ((8 - firstDay.getDay()) % 7) + 1; // day of the month of first monday
-
-        return firstMonday <= day && day < firstMonday + 7;
-      };
-
       f = createFrequency('F(inFirstFullWeek)DT0H0M0S');
 
       assert.deepStrictEqual(
@@ -317,7 +322,7 @@ describe('Frequency', function () {
       assert.strictEqual((createFrequency('F(leap)Y1D/WT15H45M0S')).toString(), 'F(leap)Y1D/WT15H45M0S');
       assert.strictEqual((createFrequency('F(odd)W1D/WT15H45M0S')).toString(), 'F(odd)W1D/WT15H45M0S');
 
-      assert.strictEqual(createFrequency('F(inThirdWeek)WT9H').toString(), 'F(inThirdWeek)WT9H');
+      assert.strictEqual(createFrequency('F(inThirdFullWeek)WT9H').toString(), 'F(inThirdFullWeek)WT9H');
     });
 
     it('should output rules set with on() to string notation', function () {
@@ -342,8 +347,8 @@ describe('Frequency', function () {
     });
 
     it('should output rules passed to constructor', function () {
-      let f = createFrequency({ W: { fn: 'inThirdWeek' }, h: { fix: 9 } });
-      assert.strictEqual(f.toString(), 'F(inThirdWeek)WT9H');
+      let f = createFrequency({ W: { fn: 'inThirdFullWeek' }, h: { fix: 9 } });
+      assert.strictEqual(f.toString(), 'F(inThirdFullWeek)WT9H');
     });
   });
 });
