@@ -285,13 +285,16 @@ function createFrequency (rules) {
    * @return {string} An ISO-style representation of the ruleset
    */
   function toString () {
+    let timeAdded = false;
+
     return util.unit.order
       .filter(unit => unit in rules)
       .reduce((str, unit, i) => {
         let rule = rules[unit];
 
-        if (['h', 'm', 's'].indexOf(unit) >= 0 && str.indexOf('T') === -1) {
+        if (['h', 'm', 's'].indexOf(unit) >= 0 && !timeAdded) {
           str += 'T';
+          timeAdded = true;
         }
 
         if ('fix' in rule) {

@@ -10,6 +10,7 @@ import leapYear from 'leap-year';
 createFrequency.fn.odd = odd;
 createFrequency.fn.even = even;
 createFrequency.fn.leap = leapYear;
+createFrequency.fn.inThirdWeek = week => week === 3;
 
 describe('Frequency', function () {
   describe('#()', function () {
@@ -315,6 +316,8 @@ describe('Frequency', function () {
 
       assert.strictEqual((createFrequency('F(leap)Y1D/WT15H45M0S')).toString(), 'F(leap)Y1D/WT15H45M0S');
       assert.strictEqual((createFrequency('F(odd)W1D/WT15H45M0S')).toString(), 'F(odd)W1D/WT15H45M0S');
+
+      assert.strictEqual(createFrequency('F(inThirdWeek)WT9H').toString(), 'F(inThirdWeek)WT9H');
     });
 
     it('should output rules set with on() to string notation', function () {
@@ -336,6 +339,11 @@ describe('Frequency', function () {
 
       f = f.on('minute', 0).on('hour', 10);
       assert.strictEqual(f.toString(), 'FT10H0M0S');
+    });
+
+    it('should output rules passed to constructor', function () {
+      let f = createFrequency({ W: { fn: 'inThirdWeek' }, h: { fix: 9 } });
+      assert.strictEqual(f.toString(), 'F(inThirdWeek)WT9H');
     });
   });
 });
