@@ -1,6 +1,5 @@
 'use strict';
 
-import 'babel-polyfill';
 import assert from 'assert';
 import createFrequency from '../src/frequency';
 import moment from 'moment';
@@ -55,7 +54,7 @@ describe('Frequency', function () {
     });
 
     it('should take set of rules', function () {
-      f = createFrequency({ h: { fix: 9 } });
+      f = createFrequency({ h: { D: 9 } });
       assert.strictEqual(f.getValue('h'), 9);
     });
   });
@@ -71,7 +70,7 @@ describe('Frequency', function () {
       f = f.on('day', 3, 'week');
       assert.strictEqual(f.getValue('day', 'week'), 3);
 
-      f = f.on('week', { fn: 'odd', scope: 'E' });
+      f = f.on('week', 'odd', 'E');
       assert.strictEqual(f.getValue('week', 'epoch'), 'odd');
     });
   });
@@ -84,7 +83,7 @@ describe('Frequency', function () {
       const twoHoursLater = new Date(+date);
       twoHoursLater.setHours(twoHoursLater.getHours() + 2);
 
-      const f = createFrequency({ h: { fix: twoHoursLater.getHours() } });
+      const f = createFrequency({ h: { D: twoHoursLater.getHours() } });
 
       assert.strictEqual(f.next(date).toString(), twoHoursLater.toString());
     });
@@ -244,6 +243,16 @@ describe('Frequency', function () {
         new Date(2018, 5, 5)
       );
     });
+
+    it('should recognize same-unit rules with different scope', function () {
+      let f = createFrequency('F5D/M2D/WT12H0M0S');
+      assert.deepStrictEqual(f.next(new Date(2018, 10, 25)), new Date(2019, 1, 5, 12));
+    });
+
+    it('should recognize same-unit rules including function with different scope', function () {
+      let f = createFrequency('F(odd)D4D/WT30M');
+      assert.deepStrictEqual(f.next(new Date(2018, 10, 25)), new Date(2018, 10, 29, 0, 30));
+    });
   });
 
   describe('#between()', function () {
@@ -340,15 +349,15 @@ describe('Frequency', function () {
     });
 
     it('should respect default unit order', function () {
-      let f = createFrequency({ second: { fix: 0 } });
+      let f = createFrequency({ s: { m: 0 } });
 
       f = f.on('minute', 0).on('hour', 10);
       assert.strictEqual(f.toString(), 'FT10H0M0S');
     });
 
     it('should output rules passed to constructor', function () {
-      let f = createFrequency({ W: { fn: 'inThirdFullWeek' }, h: { fix: 9 } });
-      assert.strictEqual(f.toString(), 'F(inThirdFullWeek)WT9H');
+      let f = createFrequency({ D: { M: 'inThirdFullWeek' }, h: { D: 9 } });
+      assert.strictEqual(f.toString(), 'F(inThirdFullWeek)DT9H');
     });
   });
 });

@@ -1,5 +1,3 @@
-'use strict';
-
 import { dayOfYear, weekNumber } from 'weeknumber';
 
 const MINUTE = 60000;
@@ -39,53 +37,53 @@ function modify (date, unit, value) {
   return date;
 };
 
-const util = {
-  /**
-   * Convert date-like objects to regular Date (adds support for moment)
-   * @param Object|Date date
-   * @return Date
-   */
-  convert: date => typeof date.toDate === 'function' ? date.toDate() : date,
-  clone: date => new Date(+date),
-  get: {
-    Y: {
-      E: date => date.getFullYear()
-    },
-    M: {
-      Y: date => date.getMonth() + 1
-    },
-    W: {
-      E: weekOfEpoch,
-      Y: weekNumber
-    },
-    D: {
-      Y: dayOfYear,
-      M: date => date.getDate(),
-      W: date => weekday(date)
-    },
-    h: {
-      D: date => date.getHours()
-    },
-    m: {
-      h: date => date.getMinutes()
-    },
-    s: {
-      m: date => date.getSeconds()
-    }
-  },
-  getValue: function (unit, scope, value) {
-    if (!util.get[unit]) {
-      throw Error('Unit not implemented: ' + unit);
-    }
+/**
+ * Convert date-like objects to regular Date (adds support for moment)
+ * @param Object|Date date
+ * @return Date
+ */
+export const convert = date => typeof date.toDate === 'function' ? date.toDate() : date;
 
-    if (!util.get[unit][scope]) {
-      throw Error('Scope not implemented: ' + unit + ' of ' + scope);
-    }
+export const clone = date => new Date(+date);
 
-    return util.get[unit][scope](value);
+export const get = {
+  Y: {
+    E: date => date.getFullYear()
   },
-  add: (date, unit, value) => modify(date, unit, value),
-  sub: (date, unit, value) => modify(date, unit, -value)
+  M: {
+    Y: date => date.getMonth() + 1
+  },
+  W: {
+    E: weekOfEpoch,
+    Y: weekNumber
+  },
+  D: {
+    Y: dayOfYear,
+    M: date => date.getDate(),
+    W: date => weekday(date)
+  },
+  h: {
+    D: date => date.getHours()
+  },
+  m: {
+    h: date => date.getMinutes()
+  },
+  s: {
+    m: date => date.getSeconds()
+  }
 };
 
-export default util;
+export function getValue (unit, scope, date) {
+  if (!get[unit]) {
+    throw Error('Unit not implemented: ' + unit);
+  }
+
+  if (!get[unit][scope]) {
+    throw Error('Scope not implemented: ' + unit + ' of ' + scope);
+  }
+
+  return get[unit][scope](date);
+};
+
+export const add = (date, unit, value) => modify(date, unit, value);
+export const sub = (date, unit, value) => modify(date, unit, -value);

@@ -1,11 +1,23 @@
-'use strict';
-
-import util from './util';
-import difference from 'lodash.difference';
-import pick from 'lodash.pick';
-import union from 'lodash.union';
+import {
+  filter as filterUnit,
+  defaults as unitDefaults,
+  order as unitOrder,
+  lower as lowerUnit
+} from './util/unit';
+import {
+  filter as filterScope,
+  getDefault as defaultScope,
+  scopes as allScopes
+} from './util/scope';
+import {
+  clone as cloneDate,
+  convert as convertDate,
+  getValue as getDateValue,
+  sub as dateSub,
+  add as dateAdd
+} from './util/date';
 import createDebug from 'debug';
-import createRule, { parseRules } from './rule';
+import parseRules from './rule';
 
 const debug = createDebug('date-frequency');
 
@@ -21,71 +33,54 @@ function createFrequency (rules) {
     rules = parseRules(rules);
   }
 
-  for (let unit in rules) {
-    if (rules.hasOwnProperty(unit)) {
-      let rule = rules[unit];
-      let u = util.unit.filter(unit);
-
-      rules[u] = createRule(u, rule);
-
-      if (rules[u].fn && !createFrequency.fn[rules[u].fn]) {
-        throw Error(`Filter function "${rules[u].fn}" not available`);
+  // check function existence
+  Object.keys(rules).forEach(unit => {
+    Object.keys(rules[unit]).forEach(scope => {
+      if (!Number.isInteger(rules[unit][scope]) && !createFrequency.fn[rules[unit][scope]]) {
+        throw Error(`Filter function "${rules[unit][scope]}" not available`);
       }
-    }
-  }
+    });
+  });
 
   debug('rules', rules);
 
   /**
    * Add a rule
    * @param {string} unit The unit for which this rule applies
-   * @param {Object|string} options The value on which to fix this unit or an options object
+   * @param {number|string} value The value on which to fix this unit or the name of a function
    * @param {string} [scope] The scope for which to fix this unit
    * @return {Object} A new frequency
    */
-  function on (unit, options, scope) {
-    unit = util.unit.filter(unit);
+  function on (unit, value, scope) {
+    unit = filterUnit(unit);
+    scope = filterScope(unit, filterUnit(scope));
 
     if (typeof unit === 'undefined') {
       throw Error(`Invalid unit: ${unit}`);
     }
 
-    if (typeof options !== 'object') {
-      options = { fix: options };
-
-      if (scope) {
-        options.scope = scope;
-      }
-    }
-
     return createFrequency(Object.assign(
       {},
       rules,
-      { [unit]: createRule(unit, options) }
+      { [unit]: { [scope]: value } }
     ));
   };
 
   /**
    * Get value for unit (within default or specified scope)
    * @param {string} unit The unit
-   * @param {string} scope The scope
-   * @return {number|Function} Fix value or function
+   * @param {string} [scope] The scope
+   * @return {number|string} Fix value or function
    */
   function getValue (unit, scope) {
-    unit = util.unit.filter(unit);
-    scope = util.scope.filter(unit, util.unit.filter(scope));
+    unit = filterUnit(unit);
+    scope = filterScope(unit, filterUnit(scope));
 
-    if (!rules[unit] || rules[unit].scope !== scope) {
+    if (!rules[unit] || typeof rules[unit][scope] === 'undefined') {
       return undefined;
     }
 
-    let rule = rules[unit];
-
-    if ('fix' in rule) {
-      return rule.fix;
-    } else if ('fn' in rule) {
-      return rule.fn;
-    }
+    return rules[unit][scope];
   };
 
   /**
@@ -93,131 +88,99 @@ function createFrequency (rules) {
    * @param {Date} [date=new Date()] The reference date after (or on) which to find the next date
    * @return {Date} The next date according to the ruleset
    */
-  function next (date) {
-    if (date) {
-      date = util.date.clone(util.date.convert(date));
-    } else {
-      date = new Date();
-    }
+  function next (date = new Date()) {
+    const debug = createDebug('date-frequency:next');
 
-    debug('next', 'in', date.toString());
+    date = cloneDate(convertDate(date));
 
-    const defaults = util.unit.defaults;
+    debug('in', date.toString());
 
-    const scopes = Object.keys(defaults)
-      .reduce((result, u) => {
-        result[u] = rules[u] && rules[u].scope ? rules[u].scope : util.scope.getDefault(u);
-        return result;
-      }, {});
+    for (let i = unitOrder.length - 1; i >= 0; i--) {
+      const unit = unitOrder[i];
 
-    const fixedUnits = Object.keys(rules)
-      .filter(unit => 'fix' in rules[unit]);
-
-    const createUnitResetter = function (defaults, scopes, belowUnit) {
-      // belowUnit = optional parent unit below which we are doing the reset
-      return function (unit) {
-        const scope = scopes[unit];
-        const def = defaults[unit];
-
-        if (scope) {
-          debug('next', `reset ${unit}`);
-
-          let value;
-          if (belowUnit && util.unit.compare(scope, belowUnit) === -1) {
-            // unit scope is higher than parent, limit to parent scope
-            value = util.date.getValue(unit, belowUnit, date);
-          } else {
-            value = util.date.getValue(unit, scope, date);
-          }
-
-          util.date.sub(date, unit, value - def);
-        }
-      };
-    };
-
-    const applyRuleFn = function (date, unit, { fn, scope }) {
-      const f = createFrequency.fn[fn];
-
-      let success = f(util.date.getValue(unit, scope, date), date);
-
-      if (!success) {
-        do {
-          debug('next', `filter failed, adding 1 ${unit}`);
-          util.date.add(date, unit, 1);
-        } while (!f(util.date.getValue(unit, scope, date), date));
-
-        return true;
-      }
-
-      return false;
-    };
-
-    util.unit.order
-      .filter(unit => unit in rules)
-      .forEach(unit => {
+      if (!(unit in rules)) {
+        continue;
+      } else {
         const rule = rules[unit];
 
-        if ('fix' in rule) {
-          let datePart = util.date.getValue(unit, rule.scope, date);
+        const scopes = allScopes[unit].filter(scope => scope in rule);
 
-          if (datePart !== rule.fix) {
-            debug('next', `setting ${unit} (${rule.scope}) from ${datePart} to ${rule.fix}`);
+        let safety = 0;
+        for (let j = 0; j < scopes.length; j++) {
+          if (++safety > createFrequency.MAX_ATTEMPTS) {
+            throw new Error(`Gave up after ${createFrequency.MAX_ATTEMPTS} to find a match for ${unit}.`);
+          }
 
-            if (datePart < rule.fix) {
-              util.date.add(date, unit, rule.fix - datePart);
+          const scope = scopes[j];
+          const ruleValue = rule[scope];
+          const dateValue = getDateValue(unit, scope, date);
 
-              // reset everything below current unit
-              util.unit.lower(unit).forEach(createUnitResetter(defaults, scopes, unit));
-            } else if (datePart > rule.fix) {
-              // find closest non fixed parent
-              const parent = difference(
-                Object.values(
-                  pick(
-                    scopes,
-                    union(util.unit.higher(unit), [unit])
-                  )
-                ),
-                fixedUnits
-              )
-                .slice(-1)[0]; // last value
+          if (Number.isInteger(ruleValue)) {
+            if (ruleValue === dateValue) {
+              debug(`${unit}/${scope} matches rule`);
+              continue;
+            }
 
-              const unitScopedToParent = Object.keys(scopes)
-                .find(unit => scopes[unit] === parent);
+            debug(`${unit}/${scope} (${dateValue}) does not match rule (${ruleValue})`);
+            if (dateValue < ruleValue) {
+              debug(`setting ${unit} to ${ruleValue}`);
+              dateAdd(date, unit, ruleValue - dateValue);
 
-              // raise that parent
-              util.date.add(date, parent, 1);
+              lowerUnit(unit)
+                .filter(unit => unit in unitDefaults && !(unit in rules))
+                .forEach(unit => {
+                  const dateValue = getDateValue(unit, defaultScope(unit), date);
 
-              if (rules[parent] && 'fn' in rules[parent]) {
-                applyRuleFn(date, parent, rules[parent]);
-              }
+                  if (dateValue !== unitDefaults[unit]) {
+                    debug(`setting ${unit} to ${unitDefaults[unit]}`);
+                    dateSub(date, unit, dateValue - unitDefaults[unit]);
+                  }
+                });
+              continue;
+            }
 
-              // reset everything below that parent (except for fixed values above the current unit)
-              union(
-                difference(
-                  util.unit.between(unitScopedToParent, unit),
-                  fixedUnits
-                ),
-                [unit],
-                util.unit.lower(unit)
-              )
-                .forEach(createUnitResetter(defaults, scopes));
+            if (dateValue > ruleValue) {
+              debug(`setting ${unit} to ${ruleValue}`);
+              dateSub(date, unit, dateValue - ruleValue);
+              debug(`adding 1 ${scope}`);
+              dateAdd(date, scope, 1);
 
-              // set unit to fix value
-              util.date.add(date, unit, rule.fix - defaults[unit]);
+              lowerUnit(unit)
+                .filter(unit => unit in unitDefaults && !(unit in rules))
+                .forEach(unit => {
+                  const dateValue = getDateValue(unit, defaultScope(unit), date);
+
+                  if (dateValue !== unitDefaults[unit]) {
+                    debug(`setting ${unit} to ${unitDefaults[unit]}`);
+                    dateSub(date, unit, dateValue - unitDefaults[unit]);
+                  }
+                });
+
+              j = -1; // check all scopes of this unit again
+
+              continue;
+            }
+          } else {
+            debug(`filter ${ruleValue}() for ${unit}/${scope}`);
+
+            const fn = createFrequency.fn[ruleValue];
+
+            let success = fn(getDateValue(unit, scope, date), date);
+
+            if (!success) {
+              do {
+                debug(`filter failed, adding 1 ${unit}`);
+                dateAdd(date, unit, 1);
+              } while (!fn(getDateValue(unit, scope, date), date));
+
+              j = -1; // check all scopes of this unit again
             }
           }
-        } else if ('fn' in rule) {
-          debug('next', `filter ${rule.fn}() for ${unit}`);
-          const filterChangedSomething = applyRuleFn(date, unit, rule);
-
-          if (filterChangedSomething) {
-            // reset everything below current unit
-            util.unit.lower(unit).forEach(createUnitResetter(defaults, scopes, unit));
-          }
         }
-      });
+      }
+    }
 
-    debug('next', 'out', date.toString());
+    debug('out', date.toString());
 
     return date;
   };
@@ -230,16 +193,16 @@ function createFrequency (rules) {
    */
   function between (start, end) {
     let result = [];
-    let d = util.date.clone(util.date.convert(start));
+    let d = cloneDate(convertDate(start));
 
-    end = util.date.convert(end);
+    end = convertDate(end);
 
     debug('between', d, end);
 
     d = next(d);
     while (d < end) {
-      result.push(util.date.clone(d));
-      util.date.add(d, 's', 1);
+      result.push(cloneDate(d));
+      dateAdd(d, 's', 1);
       d = next(d);
     }
 
@@ -252,26 +215,34 @@ function createFrequency (rules) {
    * @return {number} -1, 0 or 1
    */
   function compare (frequency) {
-    for (let i = 0; i < util.unit.order.length; i++) {
-      let unit = util.unit.order[i];
-      let rule1 = rules[unit];
-      let rule2 = frequency.rules[unit];
+    for (let i = 0; i < unitOrder.length; i++) {
+      const unit = unitOrder[i];
+      const leftRules = rules;
+      const rightRules = frequency.rules;
 
-      if (!rule1 && rule2) {
+      if (!(unit in leftRules) && unit in rightRules) {
         return -1;
-      } else if (rule1 && !rule2) {
+      } else if (unit in leftRules && !(unit in rightRules)) {
         return 1;
-      } else if (rule1 && rule2) {
-        let scope = rule1.scope;
-
-        if (scope === rule2.scope) {
-          let value1 = getValue(unit, scope);
-          let value2 = frequency.getValue(unit, scope);
-
-          if (value1 < value2) {
+      } else if (unit in leftRules && unit in rightRules) {
+        const leftRule = leftRules[unit];
+        const rightRule = rightRules[unit];
+        const scopes = allScopes[unit];
+        for (let j = 0; j < scopes.length; j++) {
+          const scope = scopes[j];
+          if (!(scope in leftRule) && scope in rightRule) {
             return -1;
-          } else if (value1 > value2) {
+          } else if (scope in leftRule && !(scope in rightRule)) {
             return 1;
+          } else if (scope in leftRule && scope in rightRule) {
+            const leftValue = getValue(unit, scope);
+            const rightValue = frequency.getValue(unit, scope);
+
+            if (leftValue < rightValue) {
+              return -1;
+            } else if (leftValue > rightValue) {
+              return 1;
+            }
           }
         }
       }
@@ -287,9 +258,9 @@ function createFrequency (rules) {
   function toString () {
     let timeAdded = false;
 
-    return util.unit.order
+    return unitOrder
       .filter(unit => unit in rules)
-      .reduce((str, unit, i) => {
+      .reduce((str, unit) => {
         let rule = rules[unit];
 
         if (['h', 'm', 's'].indexOf(unit) >= 0 && !timeAdded) {
@@ -297,19 +268,24 @@ function createFrequency (rules) {
           timeAdded = true;
         }
 
-        if ('fix' in rule) {
-          str += rule.fix;
-        } else if ('fn' in rule) {
-          str += `(${rule.fn})`;
-        }
+        return allScopes[unit]
+          .filter(scope => scope in rule) // guarantees fixed order
+          .reduce((str, scope) => {
+            const value = rule[scope];
+            if (Number.isInteger(value)) {
+              str += value;
+            } else {
+              str += `(${value})`;
+            }
 
-        str += unit.toUpperCase();
+            str += unit.toUpperCase();
 
-        if (rule.scope && rule.scope !== util.scope.getDefault(unit)) {
-          str += `/${rule.scope}`;
-        }
+            if (scope && scope !== defaultScope(unit)) {
+              str += `/${scope}`;
+            }
 
-        return str;
+            return str;
+          }, str);
       }, 'F');
   };
 
@@ -325,5 +301,6 @@ function createFrequency (rules) {
 };
 
 createFrequency.fn = {};
+createFrequency.MAX_ATTEMPTS = 100;
 
 export default createFrequency;

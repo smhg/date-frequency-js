@@ -7,8 +7,8 @@
   "scripts": {
     "lint": "eslint src test",
     "build": "babel src -d lib",
-    "test-timezone1": "export TZ=Europe/Brussels && mocha --require babel-register",
-    "test-timezone2": "export TZ=America/New_York && mocha --require babel-register",
+    "test-timezone1": "export TZ=Europe/Brussels && mocha --require @babel/register",
+    "test-timezone2": "export TZ=America/New_York && mocha --require @babel/register",
     "test": "npm run test-timezone1 && npm run test-timezone2",
     "clean": "rm -rf lib",
     "preversion": "npm run lint && npm test",
@@ -20,6 +20,12 @@
     "type": "git",
     "url": "https://github.com/smhg/date-frequency-js.git"
   },
+  "browserslist": [
+    "last 1 versions",
+    "> 1%",
+    "maintained node versions",
+    "not dead"
+  ],
   "keywords": [
     "frequency",
     "date",
@@ -34,11 +40,11 @@
   },
   "homepage": "https://github.com/smhg/date-frequency-js",
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-plugin-transform-runtime": "^6.23.0",
-    "babel-polyfill": "^6.26.0",
-    "babel-preset-env": "^1.7.0",
-    "babel-register": "^6.26.0",
+    "@babel/cli": "^7",
+    "@babel/core": "^7",
+    "@babel/plugin-transform-runtime": "^7",
+    "@babel/preset-env": "^7",
+    "@babel/register": "^7",
     "eslint": "^5.9.0",
     "eslint-config-standard": "^12.0.0",
     "eslint-plugin-import": "^2.14.0",
@@ -52,11 +58,8 @@
     "number-kind": "^0.1.0"
   },
   "dependencies": {
-    "babel-runtime": "^6.26.0",
+    "@babel/runtime": "^7",
     "debug": "^3.2.6",
-    "lodash.difference": "^4.5.0",
-    "lodash.pick": "^4.4.0",
-    "lodash.union": "^4.6.0",
     "weeknumber": "^1.1.1"
   }
 }
