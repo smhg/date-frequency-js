@@ -77,8 +77,12 @@ function createFrequency (rules) {
     unit = filterUnit(unit);
     scope = filterScope(unit, filterUnit(scope));
 
-    if (!rules[unit] || typeof rules[unit][scope] === 'undefined') {
-      return undefined;
+    if (!(unit in rules)) {
+      return;
+    }
+
+    if (!(scope in rules[unit])) {
+      return;
     }
 
     return rules[unit][scope];
