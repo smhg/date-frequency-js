@@ -53,16 +53,17 @@ function createFrequency (rules) {
    */
   function on (unit, value, scope) {
     unit = filterUnit(unit);
-    scope = filterScope(unit, filterUnit(scope));
 
     if (typeof unit === 'undefined') {
       throw Error(`Invalid unit: ${unit}`);
     }
 
+    scope = filterScope(unit, filterUnit(scope));
+
     return createFrequency(Object.assign(
       {},
       rules,
-      { [unit]: { [scope]: value } }
+      { [unit]: Object.assign({}, rules[unit], { [scope]: value }) }
     ));
   };
 

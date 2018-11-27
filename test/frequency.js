@@ -348,6 +348,15 @@ describe('Frequency', function () {
       assert.strictEqual(f.toString(), 'F2D/WT10H');
     });
 
+    it('should output multiple scopes set with on() to string notation', function () {
+      let f = createFrequency();
+
+      f = f.on('day', 2, 'week') // Tuesdays
+        .on('day', 5) // 5th day of the month
+        .on('hour', 10);
+      assert.strictEqual(f.toString(), 'F5D2D/WT10H');
+    });
+
     it('should respect default unit order', function () {
       let f = createFrequency({ s: { m: 0 } });
 
