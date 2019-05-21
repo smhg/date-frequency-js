@@ -277,6 +277,7 @@ function createFrequency (rules) {
           .filter(scope => scope in rule) // guarantees fixed order
           .reduce((str, scope) => {
             const value = rule[scope];
+
             if (Number.isInteger(value)) {
               str += value;
             } else {
