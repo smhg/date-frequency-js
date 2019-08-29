@@ -2,25 +2,25 @@ const first = (arr, idx) => arr.slice(0, idx);
 const rest = (arr, idx) => arr.slice(idx);
 
 const names = {
-  'epoch': 'E',
-  'year': 'Y',
-  'month': 'M',
-  'week': 'W',
-  'day': 'D',
-  'hour': 'h',
-  'minute': 'm',
-  'second': 's'
+  epoch: 'E',
+  year: 'Y',
+  month: 'M',
+  week: 'W',
+  day: 'D',
+  hour: 'h',
+  minute: 'm',
+  second: 's'
 };
 
 export const order = ['Y', 'M', 'W', 'D', 'h', 'm', 's'];
 
 export const defaults = {
-  'Y': 0,
-  'M': 1,
-  'D': 1,
-  'h': 0,
-  'm': 0,
-  's': 0
+  Y: 0,
+  M: 1,
+  D: 1,
+  h: 0,
+  m: 0,
+  s: 0
 };
 
 /**
@@ -49,8 +49,8 @@ export function filter (unit) {
  * @return Number Compare result
  */
 export function compare (left, right) {
-  let leftIdx = order.indexOf(left);
-  let rightIdx = order.indexOf(right);
+  const leftIdx = order.indexOf(left);
+  const rightIdx = order.indexOf(right);
 
   if (leftIdx < rightIdx) {
     return -1;
@@ -85,7 +85,7 @@ export function between (left, right) {
   let result = [];
 
   if (left !== right) {
-    let l = lower(left);
+    const l = lower(left);
 
     result = first(l, l.indexOf(right));
   }

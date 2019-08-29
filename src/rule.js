@@ -10,7 +10,7 @@ export default function parseRules (string) {
     throw Error(`Invalid frequency "${string}"`);
   }
 
-  let rules = {};
+  const rules = {};
 
   const [date, time] = string.split(/T(?![^(]*\))/);
 

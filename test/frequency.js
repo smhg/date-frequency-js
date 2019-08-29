@@ -94,7 +94,7 @@ describe('Frequency', function () {
 
     it('should handle date', function () {
       let f = createFrequency();
-      let start = new Date(2013, 8, 2);
+      const start = new Date(2013, 8, 2);
 
       assert.deepStrictEqual(f.next(start).toString(), (new Date(2013, 8, 2)).toString());
 
@@ -107,7 +107,7 @@ describe('Frequency', function () {
 
     it('should handle date and time', function () {
       let f = createFrequency();
-      let start = new Date(2013, 8, 2, 11, 10, 20);
+      const start = new Date(2013, 8, 2, 11, 10, 20);
 
       assert.strictEqual(f.next(start).toString(), (new Date(2013, 8, 2, 11, 10, 20)).toString());
 
@@ -127,7 +127,7 @@ describe('Frequency', function () {
 
     it('should handle different rules', function () {
       let f = createFrequency();
-      let start = new Date(2013, 6, 2);
+      const start = new Date(2013, 6, 2);
 
       f = f.on('month', 8); // each August 1st at 00:00:00
       assert.strictEqual(f.next(start).toString(), (new Date(2013, 7, 1)).toString());
@@ -135,7 +135,7 @@ describe('Frequency', function () {
 
     it('should increase parent of fix', function () {
       let f = createFrequency();
-      let start = new Date(2013, 8, 2);
+      const start = new Date(2013, 8, 2);
 
       f = f.on('month', 3); // each March 1st at 00:00:00
       assert.strictEqual(f.next(start).toString(), (new Date(2014, 2, 1)).toString());
@@ -146,7 +146,7 @@ describe('Frequency', function () {
 
     it('should handle DST', function () {
       let f = createFrequency();
-      let start = new Date(2013, 8, 2);
+      const start = new Date(2013, 8, 2);
 
       f = f.on('month', 11); // each November 1st at 00:00:00 (across DST)
       assert.strictEqual(f.next(start).toString(), (new Date(2013, 10, 1)).toString());
@@ -154,7 +154,7 @@ describe('Frequency', function () {
 
     it('should handle different scope', function () {
       let f = createFrequency();
-      let start = new Date(2013, 8, 2, 11, 10, 20);
+      const start = new Date(2013, 8, 2, 11, 10, 20);
 
       f = f.on('hour', 10).on('day', 3, 'week'); // each Wednesday at 10:00:00
       assert.deepStrictEqual(f.next(start).toString(), (new Date(2013, 8, 4, 10)).toString());
@@ -171,7 +171,7 @@ describe('Frequency', function () {
     });
 
     it('should work with string notation containing defaults', function () {
-      let f = createFrequency('F1D/WT15H45M0S');
+      const f = createFrequency('F1D/WT15H45M0S');
       assert.deepStrictEqual(f.next(new Date(2014, 2, 4)), new Date(2014, 2, 10, 15, 45));
     });
 
@@ -245,12 +245,12 @@ describe('Frequency', function () {
     });
 
     it('should recognize same-unit rules with different scope', function () {
-      let f = createFrequency('F5D/M2D/WT12H0M0S');
+      const f = createFrequency('F5D/M2D/WT12H0M0S');
       assert.deepStrictEqual(f.next(new Date(2018, 10, 25)), new Date(2019, 1, 5, 12));
     });
 
     it('should recognize same-unit rules including function with different scope', function () {
-      let f = createFrequency('F(odd)D4D/WT30M');
+      const f = createFrequency('F(odd)D4D/WT30M');
       assert.deepStrictEqual(f.next(new Date(2018, 10, 25)), new Date(2018, 10, 29, 0, 30));
     });
   });
@@ -262,16 +262,16 @@ describe('Frequency', function () {
     before(function () {
       // plain javascript
       let f = createFrequency();
-      let start = new Date(2013, 8, 2);
-      let end = new Date(2013, 8, 9);
+      const start = new Date(2013, 8, 2);
+      const end = new Date(2013, 8, 9);
 
       f = f.on('hour', 10).on('minute', 0).on('second', 0); // each day at 10:00:00
       arr = f.between(start, end);
 
       // with moment
       let fm = createFrequency();
-      let startm = moment(new Date(2013, 8, 2));
-      let endm = moment(new Date(2013, 8, 9));
+      const startm = moment(new Date(2013, 8, 2));
+      const endm = moment(new Date(2013, 8, 9));
 
       fm = fm.on('hour', 10).on('minute', 0).on('second', 0); // each day at 10:00:00
       arrm = fm.between(startm, endm);
@@ -293,31 +293,31 @@ describe('Frequency', function () {
     });
 
     it('should return using string notation', function () {
-      let f = createFrequency('F1D/WT15H45M0S');
-      let dates = f.between(new Date(2014, 2, 10), new Date(2014, 2, 17));
+      const f = createFrequency('F1D/WT15H45M0S');
+      const dates = f.between(new Date(2014, 2, 10), new Date(2014, 2, 17));
       assert.strictEqual(dates.length, 1);
     });
 
     it('should return nothing using string notation', function () {
-      let f = createFrequency('F1D/WT15H45M0S');
-      let dates = f.between(new Date(2014, 2, 4), new Date(2014, 2, 10));
+      const f = createFrequency('F1D/WT15H45M0S');
+      const dates = f.between(new Date(2014, 2, 4), new Date(2014, 2, 10));
       assert.strictEqual(dates.length, 0);
     });
   });
 
   describe('#compare()', function () {
     it('should detect before', function () {
-      let f = createFrequency('F1D/W');
+      const f = createFrequency('F1D/W');
       assert.ok(f.compare(createFrequency('F2D/W')) === -1);
     });
 
     it('should detect after', function () {
-      let f = createFrequency('F2D/W');
+      const f = createFrequency('F2D/W');
       assert.ok(f.compare(createFrequency('F1D/W')) === 1);
     });
 
     it('should detect equal', function () {
-      let f = createFrequency('F1D/W');
+      const f = createFrequency('F1D/W');
       assert.ok(f.compare(createFrequency('F1D/W')) === 0);
     });
   });
@@ -365,7 +365,7 @@ describe('Frequency', function () {
     });
 
     it('should output rules passed to constructor', function () {
-      let f = createFrequency({ D: { M: 'inThirdFullWeek' }, h: { D: 9 } });
+      const f = createFrequency({ D: { M: 'inThirdFullWeek' }, h: { D: 9 } });
       assert.strictEqual(f.toString(), 'F(inThirdFullWeek)DT9H');
     });
   });

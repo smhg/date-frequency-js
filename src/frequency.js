@@ -170,7 +170,7 @@ function createFrequency (rules) {
 
             const fn = createFrequency.fn[ruleValue];
 
-            let success = fn(getDateValue(unit, scope, date), date);
+            const success = fn(getDateValue(unit, scope, date), date);
 
             if (!success) {
               do {
@@ -197,7 +197,7 @@ function createFrequency (rules) {
    * @return {Date[]} The orrurences between both dates
    */
   function between (start, end) {
-    let result = [];
+    const result = [];
     let d = cloneDate(convertDate(start));
 
     end = convertDate(end);
@@ -266,7 +266,7 @@ function createFrequency (rules) {
     return unitOrder
       .filter(unit => unit in rules)
       .reduce((str, unit) => {
-        let rule = rules[unit];
+        const rule = rules[unit];
 
         if (['h', 'm', 's'].indexOf(unit) >= 0 && !timeAdded) {
           str += 'T';

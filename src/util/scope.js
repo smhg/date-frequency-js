@@ -1,11 +1,11 @@
 export const scopes = {
-  'Y': ['E'],
-  'M': ['Y', 'E'],
-  'W': ['Y', 'M', 'E'],
-  'D': ['M', 'Y', 'W', 'E'],
-  'h': ['D'],
-  'm': ['h'],
-  's': ['m']
+  Y: ['E'],
+  M: ['Y', 'E'],
+  W: ['Y', 'M', 'E'],
+  D: ['M', 'Y', 'W', 'E'],
+  h: ['D'],
+  m: ['h'],
+  s: ['m']
 };
 
 export function getDefault (unit) {
