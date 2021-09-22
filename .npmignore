@@ -1,7 +1,8 @@
+/.github
 /node_modules
 /test
-.travis.yml
 .gitignore
 .babelrc
 .eslintrc.json
+.npmrc
 npm-debug.log
