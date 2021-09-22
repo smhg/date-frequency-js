@@ -1,4 +1,4 @@
-frequency ![ci](https://github.com/smhg/date-frequency-js/actions/workflows/ci.yml/badge.svg)](https://github.com/smhg/date-frequency-js/actions/workflows/ci.yml)
+frequency [![ci](https://github.com/smhg/date-frequency-js/actions/workflows/ci.yml/badge.svg)](https://github.com/smhg/date-frequency-js/actions/workflows/ci.yml)
 =========
 > Temporal frequency library
 
