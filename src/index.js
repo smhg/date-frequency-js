@@ -3,21 +3,21 @@ import {
   defaults as unitDefaults,
   order as unitOrder,
   lower as lowerUnit
-} from './util/unit';
+} from './util/unit.js';
 import {
   filter as filterScope,
   getDefault as defaultScope,
   scopes as allScopes
-} from './util/scope';
+} from './util/scope.js';
 import {
   clone as cloneDate,
   convert as convertDate,
   getValue as getDateValue,
   sub as dateSub,
   add as dateAdd
-} from './util/date';
+} from './util/date.js';
 import createDebug from 'debug';
-import parseRules from './rule';
+import parseRules from './rule.js';
 
 const debug = createDebug('date-frequency');
 

@@ -1,9 +1,7 @@
-'use strict';
-
 import assert from 'assert';
-import { compare, lower, higher, between } from '../src/util/unit';
-import { get } from '../src/util/date';
-import { getDefault, filter as filterScope } from '../src/util/scope';
+import { compare, lower, higher, between } from '../src/util/unit.js';
+import { get } from '../src/util/date.js';
+import { getDefault, filter as filterScope } from '../src/util/scope.js';
 
 describe('util', function () {
   describe('unit', function () {

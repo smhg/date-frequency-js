@@ -2,24 +2,22 @@
   "name": "date-frequency",
   "version": "4.1.2",
   "description": "Temporal frequency library",
-  "main": "lib/frequency.js",
-  "module": "src/frequency.js",
+  "type": "module",
+  "exports": "./src/index.js",
   "scripts": {
     "lint": "eslint src test",
-    "build": "babel src -d lib",
-    "test-timezone1": "export TZ=Europe/Brussels && mocha --require @babel/register",
-    "test-timezone2": "export TZ=America/New_York && mocha --require @babel/register",
+    "test-timezone1": "export TZ=Europe/Brussels && mocha",
+    "test-timezone2": "export TZ=America/New_York && mocha",
     "test": "npm run test-timezone1 && npm run test-timezone2",
-    "clean": "rm -rf lib",
     "preversion": "npm run lint && npm test",
     "postversion": "git push && git push --tags",
-    "prepublishOnly": "npm run lint && npm run test && npm run build",
-    "postpublish": "npm run clean"
+    "prepublishOnly": "npm run lint && npm run test"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/smhg/date-frequency-js.git"
   },
+  "node": "^12.20.0 || ^14.13.1 || >=16.0.0",
   "browserslist": [
     "last 1 versions",
     "> 1%",
@@ -40,26 +38,19 @@
   },
   "homepage": "https://github.com/smhg/date-frequency-js",
   "devDependencies": {
-    "@babel/cli": "^7.8.4",
-    "@babel/core": "^7.8.6",
-    "@babel/plugin-transform-runtime": "^7.8.3",
-    "@babel/preset-env": "^7.8.6",
-    "@babel/register": "^7.8.6",
-    "eslint": "^6.8.0",
-    "eslint-config-standard": "^14.1.0",
-    "eslint-plugin-import": "^2.20.1",
-    "eslint-plugin-node": "^11.0.0",
-    "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-standard": "^4.0.1",
-    "full-week": "^1.2.1",
-    "leap-year": "^3.0.0",
-    "mocha": "^7.1.0",
+    "eslint": "^7.32.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-import": "^2.24.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^5.1.0",
+    "full-week": "^2.0.0",
+    "leap-year": "^4.0.0",
+    "mocha": "^9.1.1",
     "moment": "^2.22.2",
     "number-kind": "^0.1.0"
   },
   "dependencies": {
-    "@babel/runtime": "^7.8.4",
-    "debug": ">=3.2.6 || >= 4.1.1",
+    "debug": "^4.3.2",
     "weeknumber": "^1.1.2"
   }
 }

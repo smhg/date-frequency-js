@@ -1,5 +1,5 @@
-import { filter as filterScope } from './util/scope';
-import { defaults as unitDefaults } from './util/unit';
+import { filter as filterScope } from './util/scope.js';
+import { defaults as unitDefaults } from './util/unit.js';
 
 const stringValidation = /^F((\d+|\(\w+\))[YMWD](?:\/[EYMW])?)*(?:T((\d+|\(\w+\))[HMS](?:\/[EYMWDH])?)*)?$/;
 

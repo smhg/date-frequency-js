@@ -1,7 +1,5 @@
-'use strict';
-
 import assert from 'assert';
-import parseRules from '../src/rule';
+import parseRules from '../src/rule.js';
 
 describe('Rule', function () {
   describe('parseRules()', function () {

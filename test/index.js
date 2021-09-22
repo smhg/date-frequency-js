@@ -1,7 +1,5 @@
-'use strict';
-
 import assert from 'assert';
-import createFrequency from '../src/frequency';
+import createFrequency from '../src/index.js';
 import moment from 'moment';
 import { odd, even } from 'number-kind';
 import leapYear from 'leap-year';
